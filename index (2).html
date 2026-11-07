@@ -1,0 +1,546 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>UPSA Hostel Finder</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&display=swap">
+<style>
+/* Layout: full-width header band, sage hero with a big headline, search card and circle artwork,
+   then the hostel list, a map list, and a four-tab bottom bar. Palette: forest green on sage, one gold accent. */
+:root {
+  --bg: #FFFFFF;
+  --band: #FFFFFF;
+  --surface: #FFFFFF;
+  --deep: #14693F;
+  --ink: #24342B;
+  --muted: #64746A;
+  --line: #D9EBDF;
+  --accent: #1A7A4C;
+  --btn: #166945;
+  --btn-ink: #FFFFFF;
+  --soft: #E4F3EA;
+  --sheen: rgba(26, 122, 76, .07);
+  --gold: #D39A2F;
+  --hero-end: #F0F8F3;
+  --paper: #F6F2E4;
+  --shadow: 0 6px 20px rgba(26, 122, 76, .10);
+  --font: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+:root { color-scheme: light; }
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.55;
+  margin: 0;
+  padding-bottom: 96px;
+}
+.in {
+  max-width: 1080px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+button, input, select { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+svg.i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+/* Header band */
+.bar-top { background: var(--band); border-bottom: 1px solid var(--line); position: relative; z-index: 4; }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-block: 14px; position: relative; }
+.logo { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.mark { width: 50px; height: 50px; border-radius: 12px; background: var(--btn); color: var(--btn-ink); display: grid; place-items: center; font-weight: 800; font-size: 1.7rem; flex: none; }
+.word b { display: block; font-size: 1.35rem; letter-spacing: .08em; color: var(--deep); line-height: 1.1; font-weight: 800; }
+.word span { display: block; font-size: .68rem; letter-spacing: .24em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.top-right { display: flex; align-items: center; gap: 6px; }
+.btn {
+  min-height: 52px; padding: 0 22px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  border: 0; border-radius: 12px;
+  background: var(--btn); color: var(--btn-ink);
+  font-weight: 700; cursor: pointer; white-space: nowrap;
+  box-shadow: var(--shadow);
+}
+.btn:hover { filter: brightness(1.08); }
+.btn.sm { min-height: 44px; padding: 0 16px; }
+.btn.plain { background: transparent; color: var(--deep); box-shadow: none; }
+.btn.plain:hover { background: var(--soft); filter: none; }
+.burger { width: 48px; height: 48px; border: 0; background: none; cursor: pointer; color: var(--deep); display: grid; place-items: center; border-radius: 10px; }
+.burger svg.i { width: 30px; height: 30px; }
+.menu { position: absolute; right: 0; top: calc(100% + 4px); min-width: 210px; padding: 8px; background: var(--surface); border-radius: 14px; box-shadow: 0 10px 30px rgba(0, 0, 0, .18); display: flex; flex-direction: column; }
+.menu button { min-height: 46px; padding: 0 14px; border: 0; background: none; text-align: left; font-weight: 600; color: var(--deep); border-radius: 10px; cursor: pointer; }
+.menu button:hover { background: var(--soft); }
+
+/* Hero */
+.hero { position: relative; overflow: hidden; background: linear-gradient(180deg, var(--bg) 0%, var(--hero-end) 100%); }
+.hero::before { content: ""; position: absolute; inset: 0; background: var(--sheen); clip-path: polygon(34% 56%, 100% 44%, 100% 100%, 22% 100%); pointer-events: none; }
+.hero .in { position: relative; padding-block: 40px 0; }
+.eyebrow { display: flex; align-items: center; gap: 10px; font-size: .8rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); }
+.dot { width: 24px; height: 24px; border-radius: 50%; background: var(--soft); display: grid; place-items: center; flex: none; }
+.dot::after { content: ""; width: 11px; height: 11px; border-radius: 50%; background: var(--gold); }
+h1 { font-size: clamp(2.9rem, 14.5vw, 5.8rem); line-height: .98; letter-spacing: -.055em; font-weight: 800; color: var(--deep); margin: 30px 0 22px; max-width: 11ch; }
+h1 em { font-style: italic; color: var(--accent); letter-spacing: -.06em; }
+.lede { color: var(--muted); font-size: 1.12rem; line-height: 1.7; max-width: 30em; margin: 0 0 30px; }
+.cta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; margin-bottom: 28px; }
+.cta .btn { min-height: 56px; padding: 0 24px; }
+.verified { display: inline-flex; align-items: center; gap: 12px; border: 0; background: none; cursor: pointer; color: var(--deep); font-weight: 700; font-size: 1.05rem; padding: 6px 0; }
+.verified .ring { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--deep); display: grid; place-items: center; }
+.verified .ring svg.i { width: 18px; height: 18px; }
+.search { border: 1px solid var(--line); display: flex; align-items: center; gap: 8px; max-width: 680px; padding: 8px 8px 8px 18px; background: var(--surface); border-radius: 16px; box-shadow: var(--shadow); }
+.search > svg.i { color: var(--muted); width: 26px; height: 26px; }
+.search input { flex: 1; min-width: 0; min-height: 46px; border: 0; background: transparent; outline: 0; font-size: 1rem; }
+.search input::placeholder { color: var(--muted); }
+.search:focus-within { outline: 3px solid var(--accent); outline-offset: 2px; }
+.search .btn { min-height: 52px; padding: 0 18px; }
+.trust { display: flex; align-items: center; gap: 12px; margin: 22px 0 0; color: var(--muted); font-size: .92rem; }
+.trust svg.i { color: var(--accent); width: 26px; height: 26px; }
+
+/* Artwork */
+.art { position: relative; height: 330px; margin-top: 30px; }
+.art .c { position: absolute; left: 50%; top: 190px; border-radius: 50%; transform: translate(-50%, -50%); }
+.art .c1 { width: 344px; height: 344px; border: 1px solid var(--line); }
+.art .c2 { width: 292px; height: 292px; border: 1px dashed var(--line); }
+.art .c3 { width: 252px; height: 252px; border: 1px solid var(--gold); opacity: .7; }
+.art .c4 { width: 220px; height: 220px; background: var(--deep); display: grid; justify-items: center; align-content: start; padding-top: 28px; color: var(--gold); }
+.art .c4 svg.i { width: 54px; height: 54px; stroke-width: 1.8; }
+.note { position: absolute; right: 4px; top: 8px; width: 128px; padding: 14px 12px; background: var(--paper); box-shadow: 0 6px 18px rgba(0, 0, 0, .12); transform: rotate(-6deg); font-size: .7rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); line-height: 1.7; }
+
+/* Content */
+.content { padding-block: 28px 0; }
+.add { border: 1px solid var(--line); margin-bottom: 24px; padding: 20px; background: var(--surface); border-radius: 16px; box-shadow: var(--shadow); }
+.add h2 { margin: 0 0 4px; font-size: 1.3rem; letter-spacing: -.02em; color: var(--deep); }
+.add p.hint { margin: 0 0 16px; color: var(--muted); font-size: .9rem; }
+.form { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 14px 16px; }
+.form .full { grid-column: 1 / -1; }
+.fld { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.fld > label, label.lab { font-size: .75rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.fld input, .fld select { min-height: 46px; padding: 0 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); }
+.fld input[type="range"] { padding: 0; border: 0; background: none; accent-color: var(--accent); min-height: 32px; }
+.fld output { color: var(--ink); font-weight: 700; text-transform: none; letter-spacing: 0; font-size: .95rem; font-variant-numeric: tabular-nums; }
+.row { display: flex; flex-wrap: wrap; gap: 10px; }
+
+.browse { scroll-margin-top: 12px; }
+h2.sec { font-size: clamp(1.7rem, 6vw, 2.4rem); letter-spacing: -.04em; color: var(--deep); margin: 0 0 14px; line-height: 1.05; }
+.filters { border: 1px solid var(--line); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 16px 22px; padding: 18px; background: var(--surface); border-radius: 16px; box-shadow: var(--shadow); }
+.bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin: 22px 0 14px; }
+.count { font-weight: 800; font-size: 1.05rem; color: var(--deep); }
+.sort { display: flex; align-items: center; gap: 10px; }
+.sort select { min-height: 44px; padding: 0 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 310px), 1fr)); gap: 16px; }
+.card { border: 1px solid var(--line); min-width: 0; display: flex; flex-direction: column; gap: 14px; padding: 20px; background: var(--surface); border-radius: 16px; box-shadow: var(--shadow); }
+.card-top { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+.card h3 { font-size: 1.3rem; line-height: 1.15; letter-spacing: -.02em; color: var(--deep); margin: 0; overflow-wrap: anywhere; }
+.area { color: var(--muted); font-size: .9rem; margin: 6px 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
+.badge { font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; background: var(--soft); color: var(--accent); }
+.save { flex: none; min-width: 44px; min-height: 44px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); cursor: pointer; display: grid; place-items: center; }
+.save[aria-pressed="true"] { background: var(--btn); color: var(--btn-ink); border-color: var(--btn); }
+.save[aria-pressed="true"] svg { fill: currentColor; }
+.price { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.price .amt { font-size: 2rem; font-weight: 800; letter-spacing: -.035em; color: var(--accent); font-variant-numeric: tabular-nums; }
+.price .amt.none { font-size: 1.1rem; letter-spacing: 0; color: var(--muted); font-weight: 700; }
+.price .per { color: var(--muted); font-size: .9rem; }
+.rooms { display: flex; flex-wrap: wrap; gap: 6px; padding: 0; margin: 0; list-style: none; }
+.rooms li { font-size: .82rem; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: var(--soft); color: var(--deep); font-variant-numeric: tabular-nums; }
+.extra { font-size: .88rem; margin: 0; }
+.how { font-size: .88rem; color: var(--muted); margin: 0; }
+.walk-label { font-size: .9rem; display: flex; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+.track { height: 6px; border-radius: 3px; background: var(--soft); overflow: hidden; }
+.track i { display: block; height: 100%; background: var(--accent); border-radius: 3px; }
+.phone { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.phone .num { font-weight: 700; font-size: 1.05rem; font-variant-numeric: tabular-nums; user-select: all; }
+.src { margin: auto 0 0; padding-top: 10px; border-top: 1px solid var(--line); font-size: .8rem; color: var(--muted); display: flex; justify-content: space-between; gap: 10px; align-items: center; flex-wrap: wrap; }
+.linkbtn { background: none; border: 0; padding: 8px 4px; color: var(--accent); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.gallery { display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x mandatory; border-radius: 12px; -webkit-overflow-scrolling: touch; }
+.gallery > * { flex: 0 0 100%; scroll-snap-align: center; height: 220px; border-radius: 12px; background: #0e1a13; }
+.gallery.multi > * { flex-basis: 88%; }
+.gallery img { width: 100%; object-fit: cover; display: block; cursor: zoom-in; }
+.gallery video { width: 100%; object-fit: contain; display: block; }
+.media-count { font-size: .78rem; color: var(--muted); margin: -6px 0 0; }
+.lightbox { position: fixed; inset: 0; z-index: 20; background: rgba(0,0,0,.9); display: grid; place-items: center; padding: 16px; cursor: zoom-out; }
+.lightbox img { max-width: 100%; max-height: 100%; border-radius: 8px; }
+.empty { grid-column: 1 / -1; padding: 40px 18px; text-align: center; border: 2px dashed var(--line); border-radius: 16px; color: var(--muted); }
+.empty strong { display: block; color: var(--deep); font-size: 1.2rem; margin-bottom: 4px; }
+
+.panel { border: 1px solid var(--line); margin-top: 36px; padding: 20px; background: var(--surface); border-radius: 16px; box-shadow: var(--shadow); max-width: 760px; scroll-margin-top: 12px; }
+.panel h2 { font-size: 1.4rem; letter-spacing: -.03em; color: var(--deep); margin: 0 0 6px; }
+.panel p { margin: 0; color: var(--muted); font-size: .92rem; }
+.maplist { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-direction: column; }
+.maplist li { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; padding: 12px 0; border-top: 1px solid var(--line); }
+.maplist strong { display: block; color: var(--deep); overflow-wrap: anywhere; }
+.maplist span { color: var(--muted); font-size: .85rem; }
+.maplist a { color: var(--accent); font-weight: 700; text-decoration: none; padding: 8px 12px; border-radius: 10px; background: var(--soft); white-space: nowrap; }
+footer { margin: 24px 0 0; color: var(--muted); font-size: .85rem; max-width: 62ch; }
+
+/* Bottom navigation */
+.nav {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 5;
+  background: var(--surface); border-top: 1px solid var(--line);
+  padding: 6px max(8px, env(safe-area-inset-right, 0px)) calc(6px + env(safe-area-inset-bottom, 0px)) max(8px, env(safe-area-inset-left, 0px));
+}
+.nav-in { max-width: 640px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); }
+.nav button { min-height: 58px; border: 0; background: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: .74rem; font-weight: 600; color: var(--muted); }
+.nav button svg.i { width: 26px; height: 26px; }
+.nav button[aria-current="page"] { color: var(--accent); font-weight: 700; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .btn, .save, .burger { transition: background-color .15s, color .15s, filter .15s; }
+}
+@media (max-width: 420px) {
+  .btn.addbtn { padding: 0 16px; }
+  .word b { font-size: 1.2rem; }
+}
+</style>
+
+<div class="bar-top">
+  <div class="in top">
+    <div class="logo">
+      <div class="mark" aria-hidden="true">U</div>
+      <div class="word"><b>UPSA</b><span>Hostel finder</span></div>
+    </div>
+    <div class="top-right">
+      <button class="btn addbtn" id="addBtn" type="button" aria-expanded="false" aria-controls="addPanel">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Add a place
+      </button>
+      <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="menu">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+    <div class="menu" id="menu" hidden>
+      <button type="button" data-menu="discover">Discover</button>
+      <button type="button" data-menu="browse">Browse hostels</button>
+      <button type="button" data-menu="map">Map</button>
+      <button type="button" data-menu="saved">Saved</button>
+      <button type="button" data-menu="add">Add a place</button>
+    </div>
+  </div>
+</div>
+
+<header class="hero" id="top">
+  <div class="in">
+    <div class="eyebrow"><span class="dot" aria-hidden="true"></span>Made for UPSA students</div>
+    <h1>Find a place that feels <em>right.</em></h1>
+    <p class="lede">Real asking prices. Clear details. A direct line to the people who manage the place.</p>
+    <div class="cta">
+      <button class="btn" id="explore" type="button">Explore hostels
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      <button class="verified" id="verified" type="button">
+        <span class="ring"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0113 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg></span>
+        See verified locations</button>
+    </div>
+    <div class="search">
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+      <label for="q" style="position:absolute;left:-9999px">Search hostel names or locations</label>
+      <input id="q" type="search" placeholder="Search hostel names or locations" autocomplete="off">
+      <button class="btn" id="searchBtn" type="button">Search hostels
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </div>
+    <p class="trust">
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
+      No invented listings. No mystery prices. Just useful information.
+    </p>
+    <div class="art" aria-hidden="true">
+      <div class="c c1"></div><div class="c c2"></div><div class="c c3"></div>
+      <div class="c c4"><svg class="i" viewBox="0 0 24 24"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0113 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg></div>
+      <div class="note">Your next chapter</div>
+    </div>
+  </div>
+</header>
+
+<div class="in content">
+  <section class="add" id="addPanel" hidden aria-label="Add a place">
+    <h2>Add a place</h2>
+    <p class="hint">Places you add are saved in this browser only. Nobody else can see them.</p>
+    <form class="form" id="addForm">
+      <div class="fld full"><label for="fName">Hostel name</label><input id="fName" required maxlength="60" autocomplete="off"></div>
+      <div class="fld"><label for="fArea">Area</label><input id="fArea" maxlength="60" placeholder="e.g. Madina Estate" autocomplete="off"></div>
+      <div class="fld"><label for="fRoom">Room type</label>
+        <select id="fRoom"><option value="1">1 in a room</option><option value="2">2 in a room</option><option value="3">3 in a room</option><option value="4">4 in a room</option></select></div>
+      <div class="fld"><label for="fPrice">Price per semester (GH₵)</label><input id="fPrice" type="number" inputmode="numeric" min="0" max="100000" required></div>
+      <div class="fld"><label for="fPhone">Phone (optional)</label><input id="fPhone" type="tel" maxlength="20" autocomplete="off"></div>
+      <div class="row full">
+        <button class="btn" type="submit">Save place</button>
+        <button class="btn plain" id="addCancel" type="button">Cancel</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="browse" id="browse" aria-label="Browse hostels">
+    <h2 class="sec">Hostels near UPSA</h2>
+    <div class="filters">
+      <div class="fld">
+        <label for="kind">Hostel type</label>
+        <select id="kind"><option value="">All hostels</option><option value="upsa">UPSA-managed</option><option value="private">Private</option></select>
+      </div>
+      <div class="fld">
+        <label for="room">Room type</label>
+        <select id="room"><option value="0">Any</option><option value="1">1 in a room</option><option value="2">2 in a room</option><option value="3">3 in a room</option><option value="4">4 in a room</option></select>
+      </div>
+      <div class="fld">
+        <label for="price">Max price per semester <output id="priceOut"></output></label>
+        <input id="price" type="range" min="1500" max="14000" step="500" value="14000">
+      </div>
+    </div>
+    <div class="bar">
+      <div class="count" id="count" role="status" aria-live="polite"></div>
+      <div class="sort">
+        <label for="sort" class="lab">Sort</label>
+        <select id="sort"><option value="price">Cheapest first</option><option value="name">Name A to Z</option></select>
+      </div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section class="panel" id="mapSec" aria-label="Map">
+    <h2>Map</h2>
+    <p>Open any hostel in Google Maps to see where it is and plan your walk to campus.</p>
+    <ul class="maplist" id="maplist"></ul>
+  </section>
+
+  <section class="panel">
+    <h2>Other private rooms and apartments</h2>
+    <p>In Madina, East Legon and North Legon, shared rooms (3 to 4 in a room) usually cost GH₵ 3,500 to GH₵ 6,000 or more per semester, depending on air conditioning, self-contained rooms and how reliable the water is. Private one-in-a-room apartments run from about GH₵ 12,000 for 6 months to GH₵ 22,000 or more per year.</p>
+  </section>
+
+  <footer>
+    UPSA figures are from its published hostel fees for the 2nd semester of 2025/2026, for continuing students (levels 200 to 400). Fees for new students are not listed in that notice. Private hostel figures come from public listings and adverts and can change. Confirm the room, price and rules with the hostel before you pay anything.
+  </footer>
+</div>
+
+<nav class="nav" aria-label="Main">
+  <div class="nav-in">
+    <button type="button" data-nav="discover" aria-current="page">
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-5h4v5"/></svg>Discover</button>
+    <button type="button" data-nav="browse">
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>Browse hostels</button>
+    <button type="button" data-nav="map">
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></svg>Map</button>
+    <button type="button" data-nav="saved">
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"/></svg>Saved</button>
+  </div>
+</nav>
+
+<script>
+(function () {
+  var APPLY = "Apply through the UPSA hostel portal. An application does not guarantee a bed. Payment confirms your booking.";
+  var UPSA_SRC = "UPSA hostel fees, 2nd semester 2025/2026 (continuing students)";
+  var BASE = [
+    { id: "h1", name: "UPSA Hostel A", kind: "upsa", area: "UPSA-managed", walk: null,
+      rooms: [{ n: 4, p: 1810 }, { n: 2, p: 5440 }],
+      extra: "Facility fee per student. Plus GH₵ 200 refundable deposit and GH₵ 60 hall dues. Total: GH₵ 2,070 (4 in a room) or GH₵ 5,700 (2 in a room).", how: APPLY, src: UPSA_SRC,
+      media: [{ t: "img", src: "upsa-hostel-a.jpg", alt: "UPSA Hostel A building" }] },
+    { id: "h2", name: "Matthew Opoku Prempeh Hostel (Hostel B)", kind: "upsa", area: "UPSA-managed", walk: null,
+      rooms: [{ n: 4, p: 2250 }, { n: 2, p: 6735 }],
+      extra: "Facility fee per student. Plus GH₵ 200 refundable deposit and GH₵ 60 hall dues. Total: GH₵ 2,510 (4 in a room) or GH₵ 6,995 (2 in a room).", how: APPLY, src: UPSA_SRC,
+      media: [{ t: "img", src: "upsa-hostel-b.jpg", alt: "Matthew Opoku Prempeh Hostel building" }] },
+    { id: "h3", name: "Rich Hostel", kind: "private", area: "Near UPSA", walk: null,
+      rooms: [{ n: 4, p: 2000 }, { n: 2, p: 2500 }, { n: 1, p: 2800 }], src: "LUWOAP listing" },
+    { id: "h4", name: "Private 1-in-a-room hostel", kind: "private", area: "Near UPSA, name not listed", walk: 4,
+      rooms: [{ n: 1, p: 12000 }],
+      extra: "GH₵ 12,000 for 6 months, or GH₵ 22,000 for a year.", src: "Social media advert, Nov 2025" },
+    { id: "h5", name: "MB3 Hostel", kind: "private", area: "Walking distance from UPSA", walk: null, rooms: [], src: "HostelGig" },
+    { id: "h6", name: "Heaven's Gate Hostel", kind: "private", area: "Accra", walk: null, rooms: [], src: "GetRooms and Google Maps",
+      media: [{ t: "video", src: "heavens-gate-hostel.mp4", poster: "heavens-gate-hostel-poster.jpg" }, { t: "img", src: "heavens-gate-hostel.jpg", alt: "Heaven's Gate Hostel building" }] },
+    { id: "h7", name: "Kitatsu", kind: "private", area: "Near UPSA", walk: null, rooms: [], src: "GetRooms",
+      media: [{ t: "img", src: "kitatsu-hostel.jpg", alt: "Kitatsu Hostel gate" }] },
+    { id: "h8", name: "Goodwill Plaza", kind: "private", area: "Near UPSA", walk: null, rooms: [], src: "GetRooms",
+      media: [{ t: "img", src: "goodwill-plaza-hostel.jpg", alt: "Goodwill Plaza Hostel front" }] },
+    { id: "h9", name: "Amon Kotei Hostel", kind: "upsa", area: "UPSA-managed", walk: null,
+      rooms: [{ n: 4, p: 2360 }, { n: 2, p: 6845 }],
+      extra: "Facility fee per student. Plus GH₵ 200 refundable deposit and GH₵ 60 hall dues. Total: GH₵ 2,620 (4 in a room) or GH₵ 7,105 (2 in a room).", how: APPLY, src: UPSA_SRC,
+      media: [{ t: "video", src: "upsa-hostel-c.mp4", poster: "upsa-hostel-c-poster.jpg" }, { t: "img", src: "upsa-hostel-c.jpg", alt: "Amon Kotei Hostel at dusk" }] },
+    { id: "h10", name: "Prestige Hostel", kind: "private", area: "Opposite UPSA campus, New Dr Rd", walk: 4,
+      rooms: [{ n: 4, p: 3600 }, { n: 2, p: 4900 }],
+      extra: "Each room has its own prepaid electricity meter, a kitchenette and a washroom. A 1-in-a-room option is also offered, but its price is not listed. Other sites list different prices, for example accra.cool shows GH₵ 9,000 a year for a 1-in-1 room, so confirm with the hostel.",
+      phone: "+233 24 272 5009", src: "Prices reported by The 1957 News, citing the Rent Control Commission. Not confirmed by the hostel.",
+      media: [{ t: "img", src: "prestige-hostel.jpg", alt: "Prestige Hostel building opposite UPSA" }] }
+  ];
+  var K_SAVED = "upsa-hostel-saved-v2", K_MINE = "upsa-hostel-mine-v2";
+  function load(k) { try { var v = JSON.parse(localStorage.getItem(k) || "[]"); return Array.isArray(v) ? v : []; } catch (e) { return []; } }
+  function store(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  var saved = load(K_SAVED), mine = load(K_MINE);
+
+  var $ = function (id) { return document.getElementById(id); };
+  var q = $("q"), kind = $("kind"), room = $("room"), price = $("price"), sort = $("sort");
+  var grid = $("grid"), count = $("count");
+  var showSaved = false;
+  var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function money(n) { return "GH₵ " + Number(n).toLocaleString("en-GH"); }
+  function all() { return mine.concat(BASE); }
+  function priceFor(h, n) {
+    var rs = n ? h.rooms.filter(function (r) { return r.n === n; }) : h.rooms;
+    if (!rs.length) return null;
+    return Math.min.apply(null, rs.map(function (r) { return r.p; }));
+  }
+  function matches(h) {
+    var term = q.value.trim().toLowerCase();
+    var label = h.kind === "upsa" ? "upsa managed official" : "private";
+    if (term && (h.name + " " + h.area + " " + label).toLowerCase().indexOf(term) === -1) return false;
+    if (kind.value && h.kind !== kind.value) return false;
+    if (showSaved && saved.indexOf(h.id) === -1) return false;
+    var n = +room.value, p = priceFor(h, n);
+    if (p === null) return n === 0 && +price.value >= 14000;
+    return +price.value >= 14000 || p <= +price.value;
+  }
+
+  function card(h) {
+    var n = +room.value, p = priceFor(h, n);
+    var isSaved = saved.indexOf(h.id) !== -1;
+    var rooms = h.rooms.map(function (r) { return "<li>" + r.n + " in a room · " + money(r.p) + "</li>"; }).join("");
+    var priceBlock = p === null
+      ? '<div class="price"><span class="amt none">Price not listed</span></div>'
+      : '<div class="price"><span class="amt">' + money(p) + '</span><span class="per">' +
+        (n ? n + " in a room" : (h.rooms.length > 1 ? "from" : "")) + ' per semester</span></div>';
+    var walk = h.walk == null ? "" :
+      '<div><div class="walk-label"><span>Walk to campus</span><strong>' + h.walk + ' min</strong></div>' +
+      '<div class="track" aria-hidden="true"><i style="width:' + Math.max(4, Math.round(h.walk / 60 * 100)) + '%"></i></div></div>';
+    var phone = h.phone
+      ? '<div class="phone"><span class="num" id="num-' + esc(h.id) + '">' + esc(h.phone) + '</span>' +
+        '<button class="btn plain sm" type="button" data-copy="' + esc(h.id) + '">Copy number</button></div>' : "";
+    var how = h.how || (h.mine ? "" : "Rooms, prices and contact details are not listed yet. Check the source below or visit the hostel.");
+    var remove = h.mine ? '<button class="linkbtn" type="button" data-remove="' + esc(h.id) + '">Remove</button>' : "";
+    var gal = (h.media && h.media.length) ? '<div class="gallery' + (h.media.length > 1 ? ' multi' : '') + '" tabindex="0" aria-label="Photos and videos of ' + esc(h.name) + '">' +
+      h.media.map(function (m) {
+        return m.t === "video"
+          ? '<video controls playsinline preload="none" poster="' + esc(m.poster) + '" src="' + esc(m.src) + '" aria-label="Video of ' + esc(h.name) + '"></video>'
+          : '<img loading="lazy" src="' + esc(m.src) + '" alt="' + esc(m.alt || h.name) + '">';
+      }).join("") + '</div>' : "";
+    return '<article class="card">' + gal +
+      '<div class="card-top"><div><h3>' + esc(h.name) + '</h3><p class="area">' + esc(h.area) +
+      (h.kind === "upsa" ? ' <span class="badge">Official</span>' : '') + (h.mine ? ' <span class="badge">Added by you</span>' : '') + '</p></div>' +
+      '<button class="save" type="button" data-save="' + esc(h.id) + '" aria-pressed="' + isSaved + '" aria-label="' + (isSaved ? "Remove " : "Save ") + esc(h.name) + '">' +
+      '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"/></svg></button></div>' +
+      priceBlock + (rooms ? '<ul class="rooms">' + rooms + '</ul>' : '') +
+      (h.extra ? '<p class="extra">' + esc(h.extra) + '</p>' : '') + walk + phone +
+      (how ? '<p class="how">' + esc(how) + '</p>' : '') +
+      '<p class="src"><span>Source: ' + esc(h.src) + '</span>' + remove + '</p></article>';
+  }
+
+  function renderMap() {
+    $("maplist").innerHTML = all().slice().sort(function (a, b) { return a.name.localeCompare(b.name); }).map(function (h) {
+      var place = h.kind === "upsa" ? "UPSA Madina Accra" : h.name + " near UPSA Madina Accra";
+      var url = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(place);
+      return '<li><div><strong>' + esc(h.name) + '</strong><span>' + esc(h.area) + '</span></div>' +
+        '<a href="' + url + '" target="_blank" rel="noopener">Open in Maps</a></li>';
+    }).join("");
+  }
+
+  function render() {
+    $("priceOut").textContent = +price.value >= 14000 ? "Any" : money(+price.value);
+    var n = +room.value;
+    var list = all().filter(matches);
+    list.sort(function (a, b) {
+      if (sort.value === "name") return a.name.localeCompare(b.name);
+      var pa = priceFor(a, n), pb = priceFor(b, n);
+      if (pa === null && pb === null) return a.name.localeCompare(b.name);
+      if (pa === null) return 1;
+      if (pb === null) return -1;
+      return pa - pb;
+    });
+    count.textContent = list.length + (list.length === 1 ? " hostel" : " hostels") + (showSaved ? " saved" : "");
+    grid.innerHTML = list.length ? list.map(card).join("") :
+      '<div class="empty"><strong>' + (showSaved ? "Nothing saved yet" : "No hostels match") + '</strong>' +
+      (showSaved ? "Tap the bookmark on a hostel to keep it here." : "Raise the price, pick another room type, or clear the search.") +
+      '<br><button class="linkbtn" type="button" data-reset="1">Show all hostels</button></div>';
+    renderMap();
+  }
+
+  function setNav(name) {
+    document.querySelectorAll(".nav button").forEach(function (b) {
+      if (b.dataset.nav === name) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
+    });
+  }
+  function scrollTo(el) { el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" }); }
+
+  var addPanel = $("addPanel"), addBtn = $("addBtn");
+  function toggleAdd(open) {
+    addPanel.hidden = !open;
+    addBtn.setAttribute("aria-expanded", String(open));
+    if (open) { scrollTo(addPanel); $("fName").focus({ preventScroll: true }); }
+  }
+  function navTo(go) {
+    if (go === "add") { toggleAdd(true); return; }
+    setNav(go);
+    showSaved = go === "saved";
+    render();
+    scrollTo(go === "discover" ? $("top") : go === "map" ? $("mapSec") : $("browse"));
+  }
+
+  grid.addEventListener("click", function (e) {
+    var t = e.target.closest("button");
+    if (!t) return;
+    if (t.dataset.save) {
+      var id = t.dataset.save, i = saved.indexOf(id);
+      if (i === -1) saved.push(id); else saved.splice(i, 1);
+      store(K_SAVED, saved); render();
+    } else if (t.dataset.remove) {
+      mine = mine.filter(function (h) { return h.id !== t.dataset.remove; });
+      saved = saved.filter(function (s) { return s !== t.dataset.remove; });
+      store(K_MINE, mine); store(K_SAVED, saved); render();
+    } else if (t.dataset.copy) {
+      var span = $("num-" + t.dataset.copy), btn = t;
+      var done = function (m) { btn.textContent = m; setTimeout(function () { btn.textContent = "Copy number"; }, 1600); };
+      var fallback = function () {
+        var r = document.createRange(); r.selectNodeContents(span);
+        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); done("Selected");
+      };
+      try { navigator.clipboard.writeText(span.textContent).then(function () { done("Copied"); }, fallback); } catch (err) { fallback(); }
+    } else if (t.dataset.reset) {
+      q.value = ""; kind.value = ""; room.value = "0"; price.value = 14000; showSaved = false;
+      setNav("browse"); render();
+    }
+  });
+
+  grid.addEventListener("click", function (e) {
+    var im = e.target.closest(".gallery img"); if (!im) return;
+    var lb = document.createElement("div"); lb.className = "lightbox";
+    lb.innerHTML = '<img src="' + im.src + '" alt="' + esc(im.alt) + '">';
+    lb.addEventListener("click", function () { lb.remove(); });
+    document.body.appendChild(lb);
+  });
+  document.querySelector(".nav").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (b) navTo(b.dataset.nav);
+  });
+  var menu = $("menu"), burger = $("burger");
+  function toggleMenu(open) { menu.hidden = !open; burger.setAttribute("aria-expanded", String(open)); }
+  burger.addEventListener("click", function () { toggleMenu(menu.hidden); });
+  menu.addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    toggleMenu(false); navTo(b.dataset.menu);
+  });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") { toggleMenu(false); var l = document.querySelector(".lightbox"); if (l) l.remove(); } });
+
+  $("explore").addEventListener("click", function () { navTo("browse"); });
+  $("verified").addEventListener("click", function () { navTo("map"); });
+  $("searchBtn").addEventListener("click", function () { navTo("browse"); });
+  q.addEventListener("keydown", function (e) { if (e.key === "Enter") navTo("browse"); });
+
+  addBtn.addEventListener("click", function () { toggleAdd(addPanel.hidden); });
+  $("addCancel").addEventListener("click", function () { toggleAdd(false); });
+  $("addForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var name = $("fName").value.trim(), p = parseInt($("fPrice").value, 10);
+    if (!name || isNaN(p) || p < 0) return;
+    mine.unshift({
+      id: "m" + Date.now(), mine: true, name: name, kind: "private",
+      area: $("fArea").value.trim() || "Area not given", walk: null,
+      rooms: [{ n: +$("fRoom").value, p: p }], phone: $("fPhone").value.trim(),
+      src: "Added by you on this device"
+    });
+    store(K_MINE, mine);
+    $("addForm").reset();
+    toggleAdd(false);
+    navTo("browse");
+  });
+
+  [q, kind, room, price, sort].forEach(function (el) { el.addEventListener("input", render); });
+  render();
+})();
+</script>
+
+</body></html>
