@@ -169,6 +169,25 @@ h2.sec::after { content: ""; display: block; width: 48px; height: 4px; border-ra
 .maplist a { color: var(--forest); font-weight: 700; text-decoration: none; padding: 8px 14px; border-radius: 999px; background: var(--mist); white-space: nowrap; }
 .maplist a:hover { background: #DDEBE3; }
 
+
+/* Student price protection */
+.trust-panel { margin: 28px 0 30px; padding: 18px; border: 1px solid var(--line); border-radius: 20px; background: #fff; box-shadow: var(--shadow); }
+.trust-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.trust-kicker { margin: 0 0 5px !important; color: var(--leaf) !important; font-size: .72rem !important; font-weight: 800; letter-spacing: .08em; }
+.trust-head h2 { margin: 0 0 5px; color: var(--night); font: 700 1.45rem/1.1 var(--display); }
+.trust-head p:not(.trust-kicker) { margin: 0; color: var(--muted); font-size: .9rem; }
+.trust-mark { width: 42px; height: 42px; flex: none; display: grid; place-items: center; border-radius: 13px; background: #FFF4CC; color: var(--night); font: 800 1.4rem var(--display); }
+.trust-list { margin: 16px 0 18px; padding-left: 20px; color: var(--ink); }
+.trust-list li { padding: 4px 0; }
+.trust-list strong { color: var(--night); }
+.price-caution { margin: -4px 6px 0; padding: 9px 11px; border-radius: 10px; background: #FFF8E3; color: #55420A; font-size: .8rem; }
+.report-box { border-top: 1px solid var(--line); padding-top: 13px; }
+.report-box summary { color: var(--forest); font-weight: 800; cursor: pointer; min-height: 38px; display: flex; align-items: center; }
+.report-note { margin: 7px 0 12px; color: var(--muted); font-size: .84rem; }
+.report-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 12px; }
+.report-form .fld textarea, .report-form .fld select { width: 100%; min-height: 46px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; background: #fff; font: inherit; }
+.report-feedback { grid-column: 1 / -1; margin: 0; color: var(--muted); font-size: .84rem; }
+
 /* Bottom navigation */
 .nav { position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; background: rgba(255, 255, 255, .96); border-top: 1px solid var(--line); box-shadow: 0 -6px 20px rgba(11, 42, 31, .08); padding: 4px max(8px, env(safe-area-inset-right, 0px)) calc(4px + env(safe-area-inset-bottom, 0px)) max(8px, env(safe-area-inset-left, 0px)); }
 .nav-in { max-width: 640px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); }
@@ -269,6 +288,54 @@ h2.sec::after { content: ""; display: block; width: 48px; height: 4px; border-ra
         <button class="btn plain" id="addCancel" type="button">Cancel</button>
       </div>
     </form>
+  </section>
+
+
+  <section class="trust-panel" aria-labelledby="trustTitle">
+    <div class="trust-head">
+      <div>
+        <p class="trust-kicker">STUDENT PRICE PROTECTION</p>
+        <h2 id="trustTitle">Know the full cost before you pay</h2>
+        <p>Do not rely on the room fee alone. Ask for every charge in writing.</p>
+      </div>
+      <span class="trust-mark" aria-hidden="true">₵</span>
+    </div>
+    <ul class="trust-list">
+      <li><strong>Request a full breakdown:</strong> room fee, utilities, deposit, maintenance and any other charge.</li>
+      <li><strong>Confirm the deposit:</strong> ask whether it is refundable, when it will be returned and what deductions apply.</li>
+      <li><strong>Keep proof:</strong> save adverts, chats, receipts and payment records.</li>
+      <li><strong>Verify before paying:</strong> confirm the hostel, payment account and terms with the responsible manager.</li>
+    </ul>
+    <details class="report-box">
+      <summary>Prepare a report about an unfair charge</summary>
+      <p class="report-note">This tool prepares a message for you to share with the appropriate student representative or authority. It does not submit a complaint to this website or verify the allegation.</p>
+      <form id="reportForm" class="report-form">
+        <div class="fld">
+          <label for="reportHostel">Hostel name</label>
+          <input id="reportHostel" maxlength="80" placeholder="Enter hostel name" required>
+        </div>
+        <div class="fld">
+          <label for="reportIssue">What is the concern?</label>
+          <select id="reportIssue" required>
+            <option value="">Choose an issue</option>
+            <option>Unexpected or undisclosed charge</option>
+            <option>Deposit not refunded</option>
+            <option>Pressure to pay immediately</option>
+            <option>Payment requested to an unverified account</option>
+            <option>Advertised price differs from quoted price</option>
+            <option>Other concern</option>
+          </select>
+        </div>
+        <div class="fld full">
+          <label for="reportDetails">Details (do not include passwords or private ID numbers)</label>
+          <textarea id="reportDetails" rows="3" maxlength="700" placeholder="What happened? Include dates and amounts if known."></textarea>
+        </div>
+        <div class="row full">
+          <button class="btn" type="submit">Share report draft</button>
+        </div>
+        <p class="report-feedback" id="reportFeedback" role="status" aria-live="polite"></p>
+      </form>
+    </details>
   </section>
 
   <section class="browse" id="browse" aria-label="Browse hostels">
@@ -439,7 +506,7 @@ h2.sec::after { content: ""; display: block; width: 48px; height: 4px; border-ra
       (h.kind === "upsa" ? ' <span class="badge">Official</span>' : '') + (h.mine ? ' <span class="badge you">Added by you</span>' : '') + '</p></div>' +
       '<button class="save" type="button" data-save="' + esc(h.id) + '" aria-pressed="' + isSaved + '" aria-label="' + (isSaved ? "Remove " : "Save ") + esc(h.name) + '">' +
       '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"/></svg></button></div>' +
-      priceBlock + rooms +
+      priceBlock + '<p class="price-caution">Listed room fee only where stated. Ask the manager for a written total, including utilities, deposits and other charges, before paying.</p>' + rooms +
       (h.extra ? '<p class="extra">' + esc(h.extra) + '</p>' : '') + walk + mapRow + phone +
       (how ? '<p class="how">' + esc(how) + '</p>' : '') +
       (remove ? '<p class="src">' + remove + '</p>' : '') + '</article>';
@@ -572,6 +639,40 @@ h2.sec::after { content: ""; display: block; width: 48px; height: 4px; border-ra
     });
   });
   [q, kind, room, price, sort].forEach(function (el) { el.addEventListener("input", render); });
+
+  var reportForm = $("reportForm");
+  reportForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var hostel = $("reportHostel").value.trim();
+    var issue = $("reportIssue").value;
+    var details = $("reportDetails").value.trim();
+    if (!hostel || !issue) return;
+    var message = [
+      "UPSA HOSTEL PRICE CONCERN",
+      "Hostel: " + hostel,
+      "Concern: " + issue,
+      "Details: " + (details || "Not provided"),
+      "",
+      "Please review this concern. Supporting screenshots, adverts or receipts can be provided where available."
+    ].join("\n");
+    var feedback = $("reportFeedback");
+    if (navigator.share) {
+      navigator.share({ title: "UPSA hostel price concern", text: message })
+        .then(function () { feedback.textContent = "Share sheet opened. Choose who should receive the report."; })
+        .catch(function (err) {
+          if (err && err.name !== "AbortError") feedback.textContent = "Sharing was not completed. You can copy the details manually.";
+        });
+    } else if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(message).then(function () {
+        feedback.textContent = "Report draft copied. Paste it into a message to the appropriate student representative or authority.";
+      }).catch(function () {
+        feedback.textContent = "Could not copy automatically. Please select and copy your details.";
+      });
+    } else {
+      feedback.textContent = "Your report details are ready. Please copy them manually from the fields above.";
+    }
+  });
+
   render();
 })();
 </script>
