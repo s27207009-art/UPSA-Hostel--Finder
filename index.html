@@ -206,6 +206,12 @@ h2.sec::after { content: ""; display: block; width: 48px; height: 4px; border-ra
 .mapcard .mt small { color: var(--muted); font-size: .8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .mapcard > svg.i { color: var(--muted); }
 
+.avail { margin: 0 6px; padding: 7px 11px; border-radius: 10px; font-size: .84rem; font-weight: 600; display: flex; flex-wrap: wrap; gap: 2px 8px; align-items: center; }
+.avail small { font-weight: 500; opacity: .85; }
+.avail.available { background: #E4F4EA; color: #0B4A2A; }
+.avail.few { background: #FFF3D1; color: #5A4300; }
+.avail.full { background: #FBE3E6; color: #7A0A1B; }
+.avail.unknown { background: var(--mist); color: var(--muted); font-weight: 500; }
 /* Hostel assistant */
 .ask-fab { position: fixed; right: 14px; bottom: calc(78px + env(safe-area-inset-bottom, 0px)); z-index: 7; min-height: 48px; padding: 0 18px; border: 0; border-radius: 999px; background: var(--gold); color: var(--night); font-weight: 800; box-shadow: 0 10px 24px -8px rgba(11, 42, 31, .5); cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
 .ask-panel { position: fixed; left: 8px; right: 8px; bottom: calc(76px + env(safe-area-inset-bottom, 0px)); z-index: 9; max-width: 460px; margin-left: auto; max-height: min(72vh, 560px); display: flex; flex-direction: column; background: #fff; border: 1px solid var(--line); border-radius: 20px; box-shadow: 0 24px 48px -16px rgba(11, 42, 31, .5); overflow: hidden; }
@@ -346,7 +352,7 @@ h2.sec::after { content: ""; display: block; width: 48px; height: 4px; border-ra
 <section class="ask-panel" id="askPanel" hidden aria-label="Hostel assistant">
   <div class="ask-head"><strong>Hostel assistant</strong><button class="ask-close" id="askClose" type="button" aria-label="Close">&times;</button></div>
   <div class="ask-msgs" id="askMsgs" role="log" aria-live="polite"></div>
-  <p class="ask-note">AI can make mistakes. It cannot see live availability, so confirm prices and rooms with the hostel before you pay.</p>
+  <p class="ask-note">AI can make mistakes. Availability is only as recent as the date shown, so confirm prices and rooms with the hostel before you pay.</p>
   <form class="ask-form" id="askForm">
     <input id="askInput" type="text" maxlength="300" placeholder="Ask about prices, areas, rooms..." autocomplete="off" aria-label="Your question">
     <button class="btn" type="submit">Send</button>
@@ -407,6 +413,27 @@ h2.sec::after { content: ""; display: block; width: 48px; height: 4px; border-ra
   function store(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
   var saved = load(K_SAVED), mine = load(K_MINE);
   var remote = [];
+  var avail = {};
+  var ST = { available: "Available", few: "Few left", full: "Full" };
+  window.addEventListener("hk-availability", function (e) {
+    var out = {}, d = e.detail || {};
+    Object.keys(d).forEach(function (k) {
+      var v = d[k];
+      if (v && ST[v.status]) out[k] = { status: v.status, note: v.note ? String(v.note) : "", updated: v.updated ? String(v.updated) : "" };
+    });
+    avail = out; render();
+  });
+  function availFor(h) { return avail[h.id] || (h.id.charAt(0) === "r" ? avail[h.id.slice(1)] : null) || null; }
+  function availHtml(h) {
+    var a = availFor(h);
+    if (!a) return '<p class="avail unknown">Availability not checked. Ask the hostel before you pay.</p>';
+    return '<p class="avail ' + a.status + '"><span>' + ST[a.status] + (a.note ? ': ' + esc(a.note) : '') + '</span>' +
+      '<small>' + (a.updated ? 'Checked ' + esc(a.updated) + '. ' : '') + 'May have changed, so confirm with the hostel.</small></p>';
+  }
+  function availText(h) {
+    var a = availFor(h);
+    return a ? ST[a.status] + (a.note ? " (" + a.note + ")" : "") + ". Checked: " + (a.updated || "date not given") : "Not checked";
+  }
   window.addEventListener("hk-hostels", function (e) {
     var out = [];
     (e.detail || []).forEach(function (d) {
@@ -483,7 +510,7 @@ h2.sec::after { content: ""; display: block; width: 48px; height: 4px; border-ra
       (h.kind === "upsa" ? ' <span class="badge">Official</span>' : '') + (h.mine ? ' <span class="badge you">Added by you</span>' : '') + '</p></div>' +
       '<button class="save" type="button" data-save="' + esc(h.id) + '" aria-pressed="' + isSaved + '" aria-label="' + (isSaved ? "Remove " : "Save ") + esc(h.name) + '">' +
       '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"/></svg></button></div>' +
-      priceBlock + '<p class="price-caution">Listed room fee only where stated. Ask the manager for a written total, including utilities, deposits and other charges, before paying.</p>' + rooms +
+      availHtml(h) + priceBlock + '<p class="price-caution">Listed room fee only where stated. Ask the manager for a written total, including utilities, deposits and other charges, before paying.</p>' + rooms +
       (h.extra ? '<p class="extra">' + esc(h.extra) + '</p>' : '') + walk + mapRow + phone +
       (how ? '<p class="how">' + esc(how) + '</p>' : '') +
       (remove ? '<p class="src">' + remove + '</p>' : '') + '</article>';
@@ -627,7 +654,7 @@ h2.sec::after { content: ""; display: block; width: 48px; height: 4px; border-ra
   function askToggle(open) {
     askPanel.hidden = !open; askFab.hidden = open; askFab.setAttribute("aria-expanded", String(open));
     if (open) {
-      if (!askMsgs.children.length) askAdd("Hi! Ask me about the hostels listed here: prices, room sizes, areas, how to book. I cannot see live availability, so I will point you to the hostel for that.", "bot");
+      if (!askMsgs.children.length) askAdd("Hi! Ask me about the hostels listed here: prices, room sizes, areas, how to book. I can share availability where it has been checked, with the date.", "bot");
       askInput.focus({ preventScroll: true });
     }
   }
@@ -636,7 +663,7 @@ h2.sec::after { content: ""; display: block; width: 48px; height: 4px; border-ra
       return { name: h.name, type: h.kind === "upsa" ? "UPSA-managed" : "private", area: h.area,
         walkMinutesToCampus: h.walk, priceUnit: h.per || "per person",
         rooms: h.rooms.map(function (r) { return { peoplePerRoom: r.n, roomFeeGHS: r.p }; }),
-        notes: h.extra || "", howToBook: h.how || "", phone: h.phone || "", mapLink: mapUrl(h) };
+        notes: h.extra || "", howToBook: h.how || "", phone: h.phone || "", mapLink: mapUrl(h), availability: availText(h) };
     }));
   }
   askFab.addEventListener("click", function () { askToggle(true); });
@@ -652,8 +679,9 @@ h2.sec::after { content: ""; display: block; width: 48px; height: 4px; border-ra
     var wait = askAdd("Thinking...", "bot");
     window.hkAsk(text, askData()).then(function (ans) {
       wait.textContent = ans || "Sorry, I could not find an answer. Please contact the hostel directly.";
-    }).catch(function () {
-      wait.textContent = "Sorry, the assistant is not available right now. Please try again later or contact the hostel directly.";
+    }).catch(function (err) {
+      var why = err && err.message ? String(err.message).replace(/\s+/g, " ").slice(0, 220) : "unknown error";
+      wait.textContent = "Sorry, the assistant is not available right now. Please try again later or contact the hostel directly.\n\nDetails: " + why;
     }).then(function () { askBusy = false; askMsgs.scrollTop = askMsgs.scrollHeight; });
   });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !askPanel.hidden) askToggle(false); });
@@ -676,12 +704,15 @@ const app = initializeApp({
 });
 const db = getFirestore(app);
 window.hkSubmit = (data) => addDoc(collection(db, "submissions"), data).catch(() => {});
+getDocs(collection(db, "availability"))
+  .then((snap) => { const m = {}; snap.docs.forEach((d) => { m[d.id] = d.data(); }); window.dispatchEvent(new CustomEvent("hk-availability", { detail: m })); })
+  .catch(() => {});
 getDocs(collection(db, "hostels"))
   .then((snap) => window.dispatchEvent(new CustomEvent("hk-hostels", { detail: snap.docs.map((d) => ({ id: d.id, ...d.data() })) })))
   .catch(() => {});
 // Hostel assistant (Firebase AI Logic). Change MODEL here if Google retires it.
 const MODEL = "gemini-3.8-flash";
-const SYS = "You are the UPSA Hostel Finder assistant. You help students find hostels near the University of Professional Studies, Accra (UPSA) in Madina, Ghana. Answer ONLY from the hostel data at the end of this message. You may answer about: which hostels are listed, prices (room fees in Ghana cedis, GH\u20B5), room sizes, areas and walking distance, how to book, phone numbers and map links. Rules: (1) Never invent hostels, prices, phone numbers or facts. If the data does not say, say you do not have it and suggest contacting the hostel. (2) You have NO live availability. Never say a room is available or full. Say availability must be confirmed with the hostel or the UPSA portal, and give the phone number or booking note if one is listed. (3) Prices are listed room fees only and can change. Remind students to ask for a written total including utilities, deposit and other charges before paying. (4) Warn students to pay only into a verified hostel account, never to a stranger's MoMo number, and never to pay agents just to view rooms. (5) If asked about anything other than these hostels, politely say you can only help with hostels near UPSA. (6) Keep answers short, friendly and plain text with no markdown tables. Use a short list when comparing hostels. Hostel data (JSON): ";
+const SYS = "You are the UPSA Hostel Finder assistant. You help students find hostels near the University of Professional Studies, Accra (UPSA) in Madina, Ghana. Answer ONLY from the hostel data at the end of this message. You may answer about: which hostels are listed, prices (room fees in Ghana cedis, GH\u20B5), room sizes, areas and walking distance, how to book, phone numbers and map links. Rules: (1) Never invent hostels, prices, phone numbers or facts. If the data does not say, say you do not have it and suggest contacting the hostel. (2) Each hostel has an availability field. If it says Not checked, you do NOT know whether rooms are free: say so, and tell the student to confirm with the hostel or the UPSA portal, giving the phone number or booking note if one is listed. Otherwise report the status together with the date it was checked, and say it may have changed since, so they should confirm before paying. (3) Prices are listed room fees only and can change. Remind students to ask for a written total including utilities, deposit and other charges before paying. (4) Warn students to pay only into a verified hostel account, never to a stranger's MoMo number, and never to pay agents just to view rooms. (5) If asked about anything other than these hostels, politely say you can only help with hostels near UPSA. (6) Keep answers short, friendly and plain text with no markdown tables. Use a short list when comparing hostels. Hostel data (JSON): ";
 const ai = getAI(app, { backend: new GoogleAIBackend() });
 let chat = null, lastData = "";
 window.hkAsk = async (question, data) => {
