@@ -710,19 +710,31 @@ getDocs(collection(db, "availability"))
 getDocs(collection(db, "hostels"))
   .then((snap) => window.dispatchEvent(new CustomEvent("hk-hostels", { detail: snap.docs.map((d) => ({ id: d.id, ...d.data() })) })))
   .catch(() => {});
-// Hostel assistant (Firebase AI Logic). Change MODEL here if Google retires it.
-const MODEL = "gemini-3.8-flash";
+// Hostel assistant (Firebase AI Logic). Models are tried in order; edit MODELS if Google retires one.
+const MODELS = ["gemini-3.8-flash", "gemini-3.5-flash-lite"];
 const SYS = "You are the UPSA Hostel Finder assistant. You help students find hostels near the University of Professional Studies, Accra (UPSA) in Madina, Ghana. Answer ONLY from the hostel data at the end of this message. You may answer about: which hostels are listed, prices (room fees in Ghana cedis, GH\u20B5), room sizes, areas and walking distance, how to book, phone numbers and map links. Rules: (1) Never invent hostels, prices, phone numbers or facts. If the data does not say, say you do not have it and suggest contacting the hostel. (2) Each hostel has an availability field. If it says Not checked, you do NOT know whether rooms are free: say so, and tell the student to confirm with the hostel or the UPSA portal, giving the phone number or booking note if one is listed. Otherwise report the status together with the date it was checked, and say it may have changed since, so they should confirm before paying. (3) Prices are listed room fees only and can change. Remind students to ask for a written total including utilities, deposit and other charges before paying. (4) Warn students to pay only into a verified hostel account, never to a stranger's MoMo number, and never to pay agents just to view rooms. (5) If asked about anything other than these hostels, politely say you can only help with hostels near UPSA. (6) Keep answers short, friendly and plain text with no markdown tables. Use a short list when comparing hostels. Hostel data (JSON): ";
 const ai = getAI(app, { backend: new GoogleAIBackend() });
-let chat = null, lastData = "";
+let chat = null, lastData = "", mi = 0;
+const withTimeout = (p, ms) => new Promise((res, rej) => {
+  const t = setTimeout(() => rej(new Error("Timed out after " + ms / 1000 + "s")), ms);
+  p.then((v) => { clearTimeout(t); res(v); }, (e) => { clearTimeout(t); rej(e); });
+});
 window.hkAsk = async (question, data) => {
-  if (!chat || data !== lastData) {
-    const model = getGenerativeModel(ai, { model: MODEL, systemInstruction: SYS + data, generationConfig: { maxOutputTokens: 500, temperature: 0.3 } });
-    chat = model.startChat();
-    lastData = data;
+  for (;;) {
+    try {
+      if (!chat || data !== lastData) {
+        const model = getGenerativeModel(ai, { model: MODELS[mi], systemInstruction: SYS + data, generationConfig: { maxOutputTokens: 500, temperature: 0.3 } });
+        chat = model.startChat();
+        lastData = data;
+      }
+      const result = await withTimeout(chat.sendMessage(question), 20000);
+      return result.response.text();
+    } catch (e) {
+      chat = null;
+      if (mi >= MODELS.length - 1) throw e;
+      mi++;
+    }
   }
-  const result = await chat.sendMessage(question);
-  return result.response.text();
 };
 </script>
 
