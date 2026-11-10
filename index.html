@@ -225,6 +225,69 @@ h2.sec::after { content: ""; display: block; width: 48px; height: 4px; border-ra
 .ask-note { margin: 0; padding: 6px 12px; font-size: .75rem; color: var(--muted); background: var(--mist); }
 .ask-form { display: flex; gap: 6px; padding: 8px; border-top: 1px solid var(--line); background: #fff; }
 .ask-form input { flex: 1; min-width: 0; min-height: 46px; padding: 0 12px; border: 1px solid var(--line); border-radius: 12px; }
+
+/* ===== H-konet add-on: viewing passes, escrow, landlord portal ===== */
+.nav-in { grid-template-columns: repeat(6, 1fr); max-width: 720px; }
+.nav button { font-size: .66rem; padding: 0 2px; }
+.nav button svg.i { width: 22px; height: 22px; }
+.nbadge { position: absolute; top: 3px; left: calc(50% + 6px); min-width: 17px; height: 17px; padding: 0 4px; border-radius: 99px; background: var(--gold); color: var(--night); font-size: .66rem; font-weight: 800; display: grid; place-items: center; }
+.hk-view h2.sec { margin-top: 4px; }
+.demo-note { margin: 0 0 14px; padding: 9px 12px; border-radius: 12px; background: #FFF8E3; color: #55420A; font-size: .82rem; }
+.hk-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.hk-actions .btn { min-width: 0; padding: 0 10px; white-space: normal; line-height: 1.2; text-align: center; }
+.btn.ghost { background: #fff; color: var(--forest); border: 1.5px solid var(--forest); }
+.btn.ghost:hover { background: var(--mist); }
+.btn.danger { background: #fff; color: var(--red); border: 1.5px solid var(--red); }
+.btn.danger:hover { background: #FBE3E6; }
+.hk-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
+.hk-stat { padding: 12px 12px 13px; border-radius: 18px; background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow); min-width: 0; }
+@media (max-width: 520px) { .hk-stat p { display: none; } .hk-stat small { font-size: .62rem; } .hk-stat b { font-size: .98rem !important; white-space: nowrap; } .tx .ref { font-size: .72rem; } }
+@media (min-width: 521px) { .hk-stats { gap: 12px; } .hk-stat { padding: 14px 16px; } }
+.hk-stat.dark { background: linear-gradient(135deg, var(--night), #0B3E26); color: #fff; border-color: transparent; }
+.hk-stat small { display: block; font-size: .72rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+.hk-stat.dark small { color: #9FD8B8; }
+.hk-stat b { display: block; font: 700 1.55rem/1.25 var(--display); color: var(--forest); font-variant-numeric: tabular-nums; }
+.hk-stat.dark b { color: var(--gold); }
+.hk-stat p { margin: 2px 0 0; font-size: .8rem; color: var(--muted); }
+.hk-stat.dark p { color: rgba(255, 255, 255, .75); }
+.hk-list { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); }
+.pass { position: relative; overflow: hidden; padding: 22px 16px 16px; background: linear-gradient(135deg, #fff, #E9F5EE); border: 2px solid rgba(18, 128, 79, .35); border-radius: 20px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.pass::before, .tx::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 5px; background: repeating-linear-gradient(90deg, #C8102E 0 24px, #F2B705 24px 48px, #12804F 48px 72px, #0B2A1F 72px 96px); }
+.pass .ptop { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding-bottom: 10px; border-bottom: 1px dashed rgba(18, 128, 79, .35); }
+.pass .plab { font-size: .68rem; font-weight: 800; letter-spacing: .1em; color: var(--leaf); display: block; }
+.pass .code { font: 800 1.05rem ui-monospace, Menlo, Consolas, monospace; color: var(--night); }
+.pass h3, .tx h3 { margin: 0; font: 700 1.15rem/1.2 var(--display); color: var(--night); overflow-wrap: anywhere; }
+.pm { margin: 0; font-size: .88rem; color: var(--muted); overflow-wrap: anywhere; }
+.pm strong { color: var(--ink); }
+.pm a { color: var(--forest); }
+.chipst { font-size: .74rem; font-weight: 700; padding: 3px 10px; border-radius: 99px; white-space: nowrap; }
+.chipst.ok { background: #E4F4EA; color: #0B4A2A; }
+.chipst.wait { background: #FFF3D1; color: #5A4300; }
+.chipst.bad { background: #FBE3E6; color: #7A0A1B; }
+.tx { position: relative; overflow: hidden; padding: 22px 16px 16px; background: #fff; border: 1px solid var(--line); border-radius: 20px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.tx.locked { border-color: #E3B94A; box-shadow: 0 0 0 3px #FFF1C2, var(--shadow); }
+.tx .ref { font: 600 .78rem ui-monospace, Menlo, Consolas, monospace; color: var(--muted); }
+.tx .txhead { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.fin { display: grid; grid-template-columns: repeat(auto-fit, minmax(104px, 1fr)); gap: 10px; padding: 12px; border-radius: 14px; background: var(--mist); }
+.fin small { display: block; font-size: .66rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+.fin b { font-variant-numeric: tabular-nums; color: var(--night); overflow-wrap: anywhere; }
+.hk-box { padding: 12px 14px; border-radius: 14px; font-size: .88rem; }
+.hk-box.warn { background: #FFF8E3; color: #55420A; border: 1px solid #F0DA9A; }
+.hk-box.good { background: #E4F4EA; color: #0B4A2A; border: 1px solid #B7DEC5; }
+.hk-box.bad { background: #FBE3E6; color: #7A0A1B; border: 1px solid #F0B8C0; }
+.hk-tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 14px; border-bottom: 1px solid var(--line); scrollbar-width: none; }
+.hk-tabs::-webkit-scrollbar { display: none; }
+.hk-tab { flex: none; min-height: 42px; padding: 0 14px; border: 0; border-radius: 12px; background: transparent; color: var(--muted); font-weight: 700; font-size: .88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.hk-tab:hover { background: var(--mist); }
+.hk-tab[aria-selected="true"] { background: var(--forest); color: #fff; }
+.hk-tab i { font-style: normal; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 99px; background: var(--gold); color: var(--night); font-size: .7rem; font-weight: 800; display: grid; place-items: center; }
+.hk-back { position: fixed; inset: 0; z-index: 25; background: rgba(11, 42, 31, .62); display: flex; align-items: flex-end; justify-content: center; }
+.hk-sheet { width: 100%; max-width: 560px; max-height: 92vh; overflow-y: auto; background: #fff; border-radius: 22px 22px 0 0; padding: 18px 16px calc(20px + env(safe-area-inset-bottom, 0px)); }
+@media (min-width: 640px) { .hk-back { align-items: center; } .hk-sheet { border-radius: 22px; } }
+.hk-sheet h2 { margin: 0 0 4px; font: 700 1.3rem var(--display); color: var(--night); }
+.hk-sheet .hint { margin: 0 0 14px; color: var(--muted); font-size: .9rem; }
+.hk-sheet .hk-box { margin-bottom: 14px; }
+.hk-note { margin: 0; font-size: .84rem; color: var(--muted); }
 </style>
 
 <div class="bar-top">
@@ -245,6 +308,9 @@ h2.sec::after { content: ""; display: block; width: 48px; height: 4px; border-ra
       <button type="button" data-menu="discover">Discover</button>
       <button type="button" data-menu="browse">Browse hostels</button>
       <button type="button" data-menu="map">Map</button>
+      <button type="button" data-menu="passes">My viewing passes</button>
+      <button type="button" data-menu="escrow">Escrow</button>
+      <button type="button" data-menu="landlord">Landlord portal</button>
       <button type="button" data-menu="saved">Saved</button>
       <button type="button" data-menu="add">Add a place</button>
     </div>
@@ -333,16 +399,26 @@ h2.sec::after { content: ""; display: block; width: 48px; height: 4px; border-ra
     </div>
     <div class="grid" id="grid"></div>
   </section>
+
+  <section class="hk-view" id="passesView" hidden aria-label="My viewing passes"></section>
+  <section class="hk-view" id="escrowView" hidden aria-label="Escrow"></section>
+  <section class="hk-view" id="landlordView" hidden aria-label="Landlord portal"></section>
 </div>
+
+<div class="hk-back" id="hkBack" hidden><div class="hk-sheet" id="hkSheet" role="dialog" aria-modal="true"></div></div>
 
 <nav class="nav" aria-label="Main">
   <div class="nav-in">
     <button type="button" data-nav="discover" aria-current="page">
       <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-5h4v5"/></svg>Discover</button>
     <button type="button" data-nav="browse">
-      <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>Browse hostels</button>
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>Hostels</button>
     <button type="button" data-nav="map">
       <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></svg>Map</button>
+    <button type="button" data-nav="passes">
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>Passes<span class="nbadge" hidden>0</span></button>
+    <button type="button" data-nav="escrow">
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>Escrow<span class="nbadge" hidden>0</span></button>
     <button type="button" data-nav="saved">
       <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"/></svg>Saved</button>
   </div>
@@ -423,10 +499,10 @@ h2.sec::after { content: ""; display: block; width: 48px; height: 4px; border-ra
     });
     avail = out; render();
   });
-  function availFor(h) { return avail[h.id] || (h.id.charAt(0) === "r" ? avail[h.id.slice(1)] : null) || null; }
+  function availFor(h) { return (lav && lav[h.id]) || avail[h.id] || (h.id.charAt(0) === "r" ? avail[h.id.slice(1)] : null) || null; }
   function availHtml(h) {
     var a = availFor(h);
-    if (!a) return '<p class="avail unknown">Availability not checked. Ask the hostel before you pay.</p>';
+    if (!a) return "";
     return '<p class="avail ' + a.status + '"><span>' + ST[a.status] + (a.note ? ': ' + esc(a.note) : '') + '</span>' +
       '<small>' + (a.updated ? 'Checked ' + esc(a.updated) + '. ' : '') + 'May have changed, so confirm with the hostel.</small></p>';
   }
@@ -495,6 +571,9 @@ h2.sec::after { content: ""; display: block; width: 48px; height: 4px; border-ra
         '<button class="btn plain sm" type="button" data-copy="' + esc(h.id) + '">Copy number</button></div>' : "";
     var how = h.how || ((h.mine || h.rooms.length) ? "" : "Price not available yet. Contact the hostel to confirm.");
     var remove = h.mine ? '<button class="linkbtn" type="button" data-remove="' + esc(h.id) + '">Remove</button>' : "";
+    var actions = (h.kind !== "upsa" && h.rooms.length)
+      ? '<div class="hk-actions"><button class="btn sm" type="button" data-book="' + esc(h.id) + '">Book free viewing</button>' +
+        '<button class="btn sm ghost" type="button" data-reserve="' + esc(h.id) + '">Reserve via escrow</button></div>' : "";
     var gal = (h.media && h.media.length) ? '<div class="gallery' + (h.media.length > 1 ? ' multi' : '') + '" tabindex="0" aria-label="Photos and videos of ' + esc(h.name) + '">' +
       h.media.map(function (m) {
         return m.t === "video"
@@ -511,7 +590,7 @@ h2.sec::after { content: ""; display: block; width: 48px; height: 4px; border-ra
       '<button class="save" type="button" data-save="' + esc(h.id) + '" aria-pressed="' + isSaved + '" aria-label="' + (isSaved ? "Remove " : "Save ") + esc(h.name) + '">' +
       '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"/></svg></button></div>' +
       availHtml(h) + priceBlock + '<p class="price-caution">Listed room fee only where stated. Ask the manager for a written total, including utilities, deposits and other charges, before paying.</p>' + rooms +
-      (h.extra ? '<p class="extra">' + esc(h.extra) + '</p>' : '') + walk + mapRow + phone +
+      (h.extra ? '<p class="extra">' + esc(h.extra) + '</p>' : '') + walk + mapRow + phone + actions +
       (how ? '<p class="how">' + esc(how) + '</p>' : '') +
       (remove ? '<p class="src">' + remove + '</p>' : '') + '</article>';
   }
@@ -564,6 +643,8 @@ h2.sec::after { content: ""; display: block; width: 48px; height: 4px; border-ra
   function navTo(go) {
     if (go === "add") { toggleAdd(true); return; }
     if (go === "map") { window.open(MAPS_ALL, "_blank", "noopener"); return; }
+    if (go === "passes" || go === "escrow" || go === "landlord") { setNav(go); showView(go); return; }
+    showView("");
     setNav(go);
     showSaved = go === "saved";
     render();
@@ -685,6 +766,272 @@ h2.sec::after { content: ""; display: block; width: 48px; height: 4px; border-ra
     }).then(function () { askBusy = false; askMsgs.scrollTop = askMsgs.scrollHeight; });
   });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !askPanel.hidden) askToggle(false); });
+
+  /* ===== H-konet add-on: viewing passes, escrow, landlord portal =====
+     Prototype features. Records are kept in this browser only (localStorage). No real money moves. */
+  var K_PASS = "hk-passes-v1", K_TX = "hk-escrow-v1", K_LAV = "hk-landlord-avail-v1", K_VER = "hk-landlord-verify-v1";
+  var FEE = 0.035;
+  function loadObj(k) { try { var v = JSON.parse(localStorage.getItem(k) || "{}"); return v && typeof v === "object" && !Array.isArray(v) ? v : {}; } catch (e) { return {}; } }
+  var passes = load(K_PASS), txs = load(K_TX);
+  var lav = loadObj(K_LAV), ver = loadObj(K_VER);
+  var VIEWS = { passes: $("passesView"), escrow: $("escrowView"), landlord: $("landlordView") };
+  var back = $("hkBack"), sheet = $("hkSheet");
+  var lh = null, ltab = "avail", lpick = null, lpickFor = null;
+
+  function byId(id) { return all().filter(function (h) { return h.id === id; })[0]; }
+  function isoDate(d) { var m = d.getMonth() + 1, x = d.getDate(); return d.getFullYear() + "-" + (m < 10 ? "0" : "") + m + "-" + (x < 10 ? "0" : "") + x; }
+  function niceDate(s) { var p = String(s).split("-"); if (p.length !== 3) return esc(s); return new Date(+p[0], +p[1] - 1, +p[2]).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric" }); }
+  function stamp() { return new Date().toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }); }
+  function sum(list, fn) { return list.reduce(function (a, x) { return a + fn(x); }, 0); }
+  function roomOpts(h) {
+    return h.rooms.slice().sort(function (a, b) { return b.n - a.n; }).map(function (r) {
+      return '<option value="' + r.n + '">' + r.n + " in a room, " + money(r.p) + " " + esc(h.per || "per person") + "</option>";
+    }).join("");
+  }
+  function roomPrice(h, n) { var r = h.rooms.filter(function (x) { return x.n === n; })[0]; return r ? r.p : 0; }
+  function phoneHref(p) { return "tel:" + String(p).split("/")[0].replace(/[^+\d]/g, ""); }
+
+  function openSheet(html) {
+    sheet.innerHTML = html; back.hidden = false; document.body.style.overflow = "hidden";
+    var f = sheet.querySelector("input, select, button"); if (f) f.focus({ preventScroll: true });
+  }
+  function closeSheet() { back.hidden = true; sheet.innerHTML = ""; document.body.style.overflow = ""; }
+  back.addEventListener("click", function (e) { if (e.target === back) closeSheet(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !back.hidden) closeSheet(); });
+
+  function setBadge(name, n) {
+    var b = document.querySelector('.nav [data-nav="' + name + '"] .nbadge');
+    if (b) { b.textContent = n; b.hidden = !n; }
+  }
+  function updateBadges() {
+    setBadge("passes", passes.filter(function (p) { return p.status === "Pass issued"; }).length);
+    setBadge("escrow", txs.filter(function (t) { return t.status === "held"; }).length);
+  }
+
+  /* ---- Viewing pass ---- */
+  function bookSheet(h) {
+    var tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
+    openSheet(
+      '<h2>Free viewing pass</h2><p class="hint">' + esc(h.name) + " · " + esc(h.area) + "</p>" +
+      '<div class="hk-box good"><strong>GH₵ 0.00.</strong> Viewing a room is free. Never pay an agent or anyone outside the hostel just to see a room.</div>' +
+      '<form class="form" id="bookForm">' +
+      '<div class="fld full"><label for="bRoom">Room type to see</label><select id="bRoom">' + roomOpts(h) + "</select></div>" +
+      '<div class="fld"><label for="bDate">Date</label><input id="bDate" type="date" required min="' + isoDate(new Date()) + '" value="' + isoDate(tomorrow) + '"></div>' +
+      '<div class="fld"><label for="bSlot">Time</label><select id="bSlot"><option>09:00 AM</option><option selected>10:30 AM</option><option>01:00 PM</option><option>03:00 PM</option><option>05:00 PM</option></select></div>' +
+      '<div class="fld"><label for="bName">Your name</label><input id="bName" required maxlength="60" autocomplete="name"></div>' +
+      '<div class="fld"><label for="bPhone">Your phone</label><input id="bPhone" type="tel" required maxlength="20" autocomplete="tel"></div>' +
+      '<div class="fld full"><label for="bNote">Note for the manager (optional)</label><input id="bNote" maxlength="120"></div>' +
+      '<div class="row full"><button class="btn" type="submit">Create free pass</button><button class="btn plain" type="button" data-close="1">Cancel</button></div></form>');
+    $("bookForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      var code;
+      do { code = "HK-UPSA-" + (1000 + Math.floor(Math.random() * 9000)); } while (passes.some(function (p) { return p.code === code; }));
+      passes.unshift({
+        id: "p" + Date.now(), code: code, hostelId: h.id, hostelName: h.name, area: h.area, phone: h.phone || "",
+        room: +$("bRoom").value, date: $("bDate").value, slot: $("bSlot").value,
+        name: $("bName").value.trim(), contact: $("bPhone").value.trim(), note: $("bNote").value.trim(),
+        status: "Pass issued", created: stamp()
+      });
+      store(K_PASS, passes); closeSheet(); updateBadges(); navTo("passes");
+    });
+  }
+  function passCard(p) {
+    var cls = p.status === "Cancelled" ? "bad" : "ok";
+    return '<article class="pass"><div class="ptop"><div><span class="plab">FREE VIEWING PASS</span><span class="code">' + esc(p.code) + '</span></div>' +
+      '<span class="chipst ' + cls + '">' + esc(p.status) + "</span></div>" +
+      "<h3>" + esc(p.hostelName) + '</h3><p class="pm">' + esc(p.area) + "</p>" +
+      '<p class="pm"><strong>' + niceDate(p.date) + " · " + esc(p.slot) + "</strong><br>Room: " + p.room + " in a room</p>" +
+      '<p class="pm">Visitor: ' + esc(p.name) + " · " + esc(p.contact) + "</p>" +
+      (p.note ? '<p class="pm">Note: ' + esc(p.note) + "</p>" : "") +
+      (p.phone ? '<p class="pm">Hostel contact: <a href="' + esc(phoneHref(p.phone)) + '"><strong>' + esc(p.phone) + "</strong></a></p>"
+               : '<p class="pm">No hostel phone is listed yet. Ask at reception.</p>') +
+      (p.status === "Pass issued"
+        ? '<div class="hk-actions"><button class="btn sm ghost" type="button" data-reserve="' + esc(p.hostelId) + '">Reserve room</button>' +
+          '<button class="btn sm danger" type="button" data-pcancel="' + esc(p.id) + '">Cancel pass</button></div>' : "") +
+      "</article>";
+  }
+  function passesHtml() {
+    var head = '<h2 class="sec">My viewing passes</h2><p class="demo-note">Prototype: passes are saved on this device only. Call or message the hostel to confirm your time. Viewing is always free.</p>';
+    if (!passes.length) return head + '<div class="empty"><strong>No viewing passes yet</strong>Open a private hostel and tap "Book free viewing".<br><button class="linkbtn" type="button" data-go="browse">Browse hostels</button></div>';
+    return head + '<div class="hk-list">' + passes.map(passCard).join("") + "</div>";
+  }
+
+  /* ---- Escrow ---- */
+  function reserveSheet(h) {
+    openSheet(
+      "<h2>Reserve through escrow</h2><p class=\"hint\">" + esc(h.name) + "</p>" +
+      '<div class="hk-box warn"><strong>Prototype.</strong> No real money moves in this version. It shows how escrow would protect a student: the room fee is held until you inspect the room and accept it.</div>' +
+      '<form class="form" id="resForm">' +
+      '<div class="fld full"><label for="rRoom">Room type</label><select id="rRoom">' + roomOpts(h) + "</select></div>" +
+      '<div class="fld"><label for="rName">Your name</label><input id="rName" required maxlength="60" autocomplete="name"></div>' +
+      '<div class="fld"><label for="rPhone">Your phone</label><input id="rPhone" type="tel" required maxlength="20" autocomplete="tel"></div>' +
+      '<div class="fld full"><label for="rPay">Payment method</label><select id="rPay"><option>MTN MoMo</option><option>Telecel Cash</option><option>AirtelTigo Money</option><option>Bank transfer</option></select></div>' +
+      '<div class="fld full" id="rSum"></div>' +
+      '<div class="row full"><button class="btn" type="submit">Lock funds in escrow</button><button class="btn plain" type="button" data-close="1">Cancel</button></div></form>');
+    function showSum() {
+      var p = roomPrice(h, +$("rRoom").value), fee = Math.round(p * FEE);
+      $("rSum").innerHTML = '<div class="fin"><div><small>Room fee held</small><b>' + money(p) + "</b></div>" +
+        "<div><small>Commission (3.5%)</small><b>" + money(fee) + "</b></div><div><small>You pay</small><b>" + money(p) + "</b></div></div>" +
+        '<p class="hk-note" style="margin-top:8px">The commission comes out of the landlord\'s payout after you accept the room. It is not added to your bill.</p>';
+    }
+    $("rRoom").addEventListener("change", showSum); showSum();
+    $("resForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      var n = +$("rRoom").value, p = roomPrice(h, n);
+      txs.unshift({
+        id: "t" + Date.now(), ref: "ESC-" + (10000 + Math.floor(Math.random() * 90000)), hostelId: h.id, hostelName: h.name,
+        room: n, per: h.per || "per person", amount: p, fee: Math.round(p * FEE), method: $("rPay").value,
+        name: $("rName").value.trim(), contact: $("rPhone").value.trim(), status: "held", created: stamp()
+      });
+      store(K_TX, txs); closeSheet(); updateBadges(); navTo("escrow");
+    });
+  }
+  function confirmSheet(kind, id) {
+    var t = txs.filter(function (x) { return x.id === id; })[0]; if (!t) return;
+    var ok = kind === "accept";
+    openSheet("<h2>" + (ok ? "Accept this room?" : "Decline and refund?") + "</h2>" +
+      '<p class="hint">' + (ok
+        ? "You confirm you inspected the room and are satisfied. The fee is released to the landlord, and the 3.5% commission is taken from their payout."
+        : "The full " + money(t.amount) + " goes back to you with no penalty.") + "</p>" +
+      '<div class="row"><button class="btn' + (ok ? "" : " danger") + '" type="button" data-confirm="' + kind + ":" + esc(id) + '">' + (ok ? "Yes, accept and release" : "Yes, refund me") + "</button>" +
+      '<button class="btn plain" type="button" data-close="1">Go back</button></div>');
+  }
+  function txCard(t) {
+    var held = t.status === "held", rel = t.status === "released";
+    var label = held ? "Held in escrow" : (rel ? "Released to landlord" : "Refunded"), cls = held ? "wait" : (rel ? "ok" : "bad");
+    return '<article class="tx' + (held ? " locked" : "") + '"><div class="txhead"><div><span class="ref">Ref: ' + esc(t.ref) + " · " + esc(t.created) + "</span>" +
+      "<h3>" + esc(t.hostelName) + '</h3><p class="pm">' + t.room + " in a room · " + esc(t.per) + '</p></div><span class="chipst ' + cls + '">' + label + "</span></div>" +
+      '<div class="fin"><div><small>Room fee</small><b>' + money(t.amount) + "</b></div><div><small>Commission (3.5%)</small><b>" + money(t.fee) + "</b></div><div><small>Method</small><b>" + esc(t.method) + "</b></div></div>" +
+      (held ? '<div class="hk-box warn">Visit the hostel and inspect the room within 48 hours. Accept only if it matches the listing.</div>' +
+              '<div class="hk-actions"><button class="btn sm" type="button" data-accept="' + esc(t.id) + '">Accept &amp; release</button>' +
+              '<button class="btn sm danger" type="button" data-refund="' + esc(t.id) + '">Decline &amp; refund</button></div>'
+       : rel ? '<div class="hk-box good">Room accepted. The fee was released to the landlord, minus a ' + money(t.fee) + " commission.</div>"
+             : '<div class="hk-box bad">Declined. ' + money(t.amount) + " was refunded to your " + esc(t.method) + " (prototype).</div>") + "</article>";
+  }
+  function escrowHtml() {
+    var held = sum(txs.filter(function (t) { return t.status === "held"; }), function (t) { return t.amount; });
+    var fees = sum(txs.filter(function (t) { return t.status === "released"; }), function (t) { return t.fee; });
+    var head = '<h2 class="sec">Escrow</h2><p class="demo-note">Prototype: no real money moves. This shows how reservations would be protected.</p>' +
+      '<div class="hk-stats"><div class="hk-stat dark"><small>Locked in escrow</small><b>' + money(held) + "</b><p>Waiting for you to inspect and accept.</p></div>" +
+      '<div class="hk-stat"><small>Viewing fees charged</small><b>GH₵ 0</b><p>Viewings are always free.</p></div>' +
+      '<div class="hk-stat"><small>Commission paid (3.5%)</small><b>' + money(fees) + "</b><p>Only after a room is accepted.</p></div></div>" +
+      '<div class="hk-box warn" style="margin-bottom:16px"><strong>How it works:</strong> the landlord is not paid, and H-konet takes no commission, until you inspect the room and tap <strong>Accept</strong>. If the room does not match the listing, tap <strong>Decline</strong> for a full refund.</div>';
+    if (!txs.length) return head + '<div class="empty"><strong>No escrow reservations yet</strong>Open a private hostel and tap "Reserve via escrow".<br><button class="linkbtn" type="button" data-go="browse">Browse hostels</button></div>';
+    return head + '<div class="hk-list">' + txs.map(txCard).join("") + "</div>";
+  }
+
+  /* ---- Landlord portal ---- */
+  function landlordHostels() { return all().filter(function (h) { return h.kind !== "upsa"; }); }
+  function landlordHtml() {
+    var head = '<h2 class="sec">Landlord portal</h2><p class="demo-note">Prototype for hostel managers. Records stay on this device. Real verification and payouts would be handled by the H-konet team.</p>';
+    var hs = landlordHostels();
+    if (!hs.length) return head + '<div class="empty"><strong>No private hostels listed</strong></div>';
+    if (!lh || !hs.some(function (h) { return h.id === lh; })) lh = hs[0].id;
+    var h = byId(lh);
+    var mytx = txs.filter(function (t) { return t.hostelId === lh; });
+    var myps = passes.filter(function (p) { return p.hostelId === lh && p.status !== "Cancelled"; });
+    var pending = sum(mytx.filter(function (t) { return t.status === "held"; }), function (t) { return t.amount; });
+    var net = sum(mytx.filter(function (t) { return t.status === "released"; }), function (t) { return t.amount - t.fee; });
+    var fees = sum(mytx.filter(function (t) { return t.status === "released"; }), function (t) { return t.fee; });
+    var sel = '<div class="fld" style="margin-bottom:14px"><label for="lSel">Managing</label><select id="lSel">' + hs.map(function (x) {
+      return '<option value="' + esc(x.id) + '"' + (x.id === lh ? " selected" : "") + ">" + esc(x.name) + "</option>";
+    }).join("") + "</select></div>";
+    var stats = '<div class="hk-stats"><div class="hk-stat"><small>Pending escrow</small><b>' + money(pending) + "</b><p>Released when a student accepts.</p></div>" +
+      '<div class="hk-stat"><small>Net payouts</small><b>' + money(net) + "</b><p>After the 3.5% commission.</p></div>" +
+      '<div class="hk-stat"><small>Platform commission</small><b>' + money(fees) + "</b><p>Taken only on accepted rooms.</p></div></div>";
+    var tabs = [["avail", "Availability"], ["view", "Viewings", myps.length], ["ledger", "Escrow ledger"], ["verify", "Verification"]];
+    var bar = '<div class="hk-tabs" role="tablist">' + tabs.map(function (t) {
+      return '<button class="hk-tab" type="button" role="tab" data-ltab="' + t[0] + '" aria-selected="' + (ltab === t[0]) + '">' + t[1] + (t[2] ? "<i>" + t[2] + "</i>" : "") + "</button>";
+    }).join("") + "</div>";
+    return head + sel + stats + bar + landlordPanel(h, mytx, myps);
+  }
+  function landlordPanel(h, mytx, myps) {
+    if (ltab === "avail") {
+      var cur = availFor(h);
+      if (lpickFor !== h.id) { lpick = cur ? cur.status : "clear"; lpickFor = h.id; }
+      var opts = [["available", "Available"], ["few", "Few left"], ["full", "Full"], ["clear", "Not checked"]];
+      return '<p class="hk-note" style="margin-bottom:10px">Tell students what is free. It shows on the hostel card with today\'s date.</p>' +
+        '<div class="chips" role="group" aria-label="Availability status">' + opts.map(function (o) {
+          return '<button class="chip" type="button" data-lstatus="' + o[0] + '" aria-pressed="' + (lpick === o[0]) + '">' + o[1] + "</button>";
+        }).join("") + "</div>" +
+        '<div class="fld" style="margin:12px 0"><label for="lNote">Short note (optional)</label><input id="lNote" maxlength="80" placeholder="e.g. 2 rooms left on the 2 in a room floor" value="' + esc(cur ? cur.note : "") + '"></div>' +
+        '<button class="btn" type="button" data-lsave="1">Save availability</button>';
+    }
+    if (ltab === "view") {
+      if (!myps.length) return '<div class="empty"><strong>No viewings booked</strong>Students who book a free pass for this hostel appear here.</div>';
+      return '<div class="hk-list">' + myps.map(function (p) {
+        return '<article class="tx"><div class="txhead"><div><span class="ref">' + esc(p.code) + "</span><h3 style=\"font-size:1rem\">" + esc(p.name) + "</h3></div>" +
+          '<span class="chipst ' + (p.status === "Inspected" ? "ok" : "wait") + '">' + esc(p.status) + "</span></div>" +
+          '<p class="pm">' + esc(p.contact) + " · " + niceDate(p.date) + ", " + esc(p.slot) + " · " + p.room + " in a room</p>" +
+          (p.status === "Pass issued" ? '<button class="btn sm" type="button" data-inspect="' + esc(p.id) + '">Mark inspected</button>' : "") + "</article>";
+      }).join("") + "</div>";
+    }
+    if (ltab === "ledger") {
+      if (!mytx.length) return '<div class="empty"><strong>No escrow records</strong>Reservations for this hostel appear here.</div>';
+      return '<div class="hk-list">' + mytx.map(function (t) {
+        var rel = t.status === "released";
+        return '<article class="tx"><div class="txhead"><div><span class="ref">' + esc(t.ref) + "</span><h3 style=\"font-size:1rem\">" + esc(t.name) + " · " + t.room + " in a room</h3></div>" +
+          '<span class="chipst ' + (rel ? "ok" : (t.status === "held" ? "wait" : "bad")) + '">' + (rel ? "Paid out" : (t.status === "held" ? "Held" : "Refunded")) + "</span></div>" +
+          '<div class="fin"><div><small>Gross rent</small><b>' + money(t.amount) + "</b></div><div><small>Fee (3.5%)</small><b>- " + money(t.fee) + "</b></div>" +
+          "<div><small>" + (rel ? "Net payout" : "If accepted") + "</small><b>" + money(t.amount - t.fee) + "</b></div></div></article>";
+      }).join("") + "</div>";
+    }
+    var v = ver[h.id];
+    return v
+      ? '<div class="hk-box good"><strong>Submitted on ' + esc(v.date) + ".</strong> The H-konet team would now check the documents. Students see a verified badge only after that check (prototype).</div>"
+      : '<div class="hk-box warn"><strong>Not verified yet.</strong> Managers are checked before they can receive escrow payouts. You would send a Ghana Card (front and back), proof you own or manage the property, and the hostel\'s official bank account name.</div>' +
+        '<p class="hk-note" style="margin:12px 0">This prototype stores no ID details. It only records that you started.</p>' +
+        '<button class="btn" type="button" data-verify="1">Start verification</button>';
+  }
+
+  /* ---- Views and events ---- */
+  function renderView(name) {
+    var el = VIEWS[name]; if (!el) return;
+    el.innerHTML = name === "passes" ? passesHtml() : (name === "escrow" ? escrowHtml() : landlordHtml());
+  }
+  function showView(name) {
+    var isV = !!VIEWS[name];
+    $("top").hidden = isV; $("browse").hidden = isV;
+    document.querySelector(".content").style.paddingTop = isV ? "20px" : "";
+    document.querySelector(".banner").hidden = isV;
+    Object.keys(VIEWS).forEach(function (k) { VIEWS[k].hidden = k !== name; });
+    if (isV) { renderView(name); window.scrollTo(0, 0); }
+  }
+  document.addEventListener("change", function (e) {
+    if (e.target.id === "lSel") { lh = e.target.value; lpick = null; lpickFor = null; renderView("landlord"); }
+  });
+  document.addEventListener("click", function (e) {
+    var t = e.target.closest("button"); if (!t) return;
+    var d = t.dataset, h;
+    if (d.book) { h = byId(d.book); if (h) bookSheet(h); }
+    else if (d.reserve) { h = byId(d.reserve); if (h) reserveSheet(h); }
+    else if (d.close) closeSheet();
+    else if (d.go) navTo(d.go);
+    else if (d.pcancel) {
+      passes.forEach(function (p) { if (p.id === d.pcancel) p.status = "Cancelled"; });
+      store(K_PASS, passes); updateBadges(); renderView("passes");
+    }
+    else if (d.accept) confirmSheet("accept", d.accept);
+    else if (d.refund) confirmSheet("refund", d.refund);
+    else if (d.confirm) {
+      var parts = d.confirm.split(":"), kind = parts[0], id = parts.slice(1).join(":");
+      txs.forEach(function (x) { if (x.id === id && x.status === "held") x.status = kind === "accept" ? "released" : "refunded"; });
+      store(K_TX, txs); closeSheet(); updateBadges(); renderView("escrow");
+    }
+    else if (d.ltab) { ltab = d.ltab; renderView("landlord"); }
+    else if (d.lstatus) { var n = $("lNote"); var keep = n ? n.value : ""; lpick = d.lstatus; renderView("landlord"); if ($("lNote")) $("lNote").value = keep; }
+    else if (d.lsave) {
+      var note = ($("lNote") || {}).value || "";
+      if (!lpick || lpick === "clear") delete lav[lh]; else lav[lh] = { status: lpick, note: note.trim().slice(0, 80), updated: stamp() };
+      store(K_LAV, lav); render(); renderView("landlord");
+    }
+    else if (d.inspect) {
+      passes.forEach(function (p) { if (p.id === d.inspect) p.status = "Inspected"; });
+      store(K_PASS, passes); updateBadges(); renderView("landlord");
+    }
+    else if (d.verify) { ver[lh] = { status: "submitted", date: stamp() }; store(K_VER, ver); renderView("landlord"); }
+  });
+  updateBadges();
 
   render();
 })();
