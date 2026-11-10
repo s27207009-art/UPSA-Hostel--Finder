@@ -287,7 +287,13 @@ h2.sec::after { content: ""; display: block; width: 48px; height: 4px; border-ra
 .hk-sheet h2 { margin: 0 0 4px; font: 700 1.3rem var(--display); color: var(--night); }
 .hk-sheet .hint { margin: 0 0 14px; color: var(--muted); font-size: .9rem; }
 .hk-sheet .hk-box { margin-bottom: 14px; }
-.hk-note { margin: 0; font-size: .84rem; color: var(--muted); }
+.hk-note { margin: 0; font-size: .84rem; color: var(--muted); white-space: pre-wrap; overflow-wrap: anywhere; }
+.hk-safety { display: flex; align-items: center; justify-content: space-between; gap: 10px 14px; flex-wrap: wrap; margin: 0 0 14px; padding: 12px 14px; border-radius: 16px; background: #FBE3E6; border: 1px solid #F0B8C0; color: #7A0A1B; }
+.hk-safety div { display: flex; flex-direction: column; min-width: 0; flex: 1 1 200px; font-size: .86rem; }
+.hk-safety strong { font-size: .95rem; }
+.btn.alert { background: var(--red); color: #fff; }
+.btn.alert:hover { background: #A30D25; }
+.fld textarea { min-height: 92px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; background: #fff; font: inherit; resize: vertical; }
 </style>
 
 <div class="bar-top">
@@ -311,6 +317,7 @@ h2.sec::after { content: ""; display: block; width: 48px; height: 4px; border-ra
       <button type="button" data-menu="passes">My viewing passes</button>
       <button type="button" data-menu="escrow">Escrow</button>
       <button type="button" data-menu="landlord">Landlord portal</button>
+      <button type="button" data-menu="report">Report a rogue agent</button>
       <button type="button" data-menu="saved">Saved</button>
       <button type="button" data-menu="add">Add a place</button>
     </div>
@@ -364,6 +371,7 @@ h2.sec::after { content: ""; display: block; width: 48px; height: 4px; border-ra
 
   <section class="browse" id="browse" aria-label="Browse hostels">
     <h2 class="sec">Hostels near UPSA</h2>
+    <div class="hk-safety"><div><strong>Asked to pay just to view a room?</strong><span>Viewing is free. Don't pay. Report the agent.</span></div><button class="btn alert sm" type="button" data-report="1">Report rogue agent</button></div>
     <div class="filters">
       <div class="fgroup">
         <span class="flab" id="kindLab">Hostel type</span>
@@ -643,6 +651,7 @@ h2.sec::after { content: ""; display: block; width: 48px; height: 4px; border-ra
   function navTo(go) {
     if (go === "add") { toggleAdd(true); return; }
     if (go === "map") { window.open(MAPS_ALL, "_blank", "noopener"); return; }
+    if (go === "report") { openReport(); return; }
     if (go === "passes" || go === "escrow" || go === "landlord") { setNav(go); showView(go); return; }
     showView("");
     setNav(go);
@@ -1005,6 +1014,7 @@ h2.sec::after { content: ""; display: block; width: 48px; height: 4px; border-ra
     var d = t.dataset, h;
     if (d.book) { h = byId(d.book); if (h) bookSheet(h); }
     else if (d.reserve) { h = byId(d.reserve); if (h) reserveSheet(h); }
+    else if (d.report) openReport();
     else if (d.close) closeSheet();
     else if (d.go) navTo(d.go);
     else if (d.pcancel) {
@@ -1031,6 +1041,38 @@ h2.sec::after { content: ""; display: block; width: 48px; height: 4px; border-ra
     }
     else if (d.verify) { ver[lh] = { status: "submitted", date: stamp() }; store(K_VER, ver); renderView("landlord"); }
   });
+  /* ---- Report a rogue agent: prepares a private draft to share. Nothing is sent or published. ---- */
+  function openReport() {
+    openSheet(
+      "<h2>Report a rogue agent</h2><p class=\"hint\">Someone asked you to pay just to see a room?</p>" +
+      '<div class="hk-box warn"><strong>How this works:</strong> viewing is free, and honest hostel managers never charge for it. This tool only prepares a message for you to send to a student representative or campus authority. Nothing is sent or published automatically, and this app does not verify the claim.</div>' +
+      '<form class="form" id="rpForm">' +
+      '<div class="fld full"><label for="rpWho">Who was it? (nickname or description)</label><input id="rpWho" required maxlength="120" placeholder="e.g. man in a red jacket at the gate"></div>' +
+      '<div class="fld"><label for="rpFee">Fee demanded (GH₵)</label><input id="rpFee" type="number" inputmode="numeric" min="0" max="100000" required></div>' +
+      '<div class="fld"><label for="rpPhone">Their phone or MoMo (optional)</label><input id="rpPhone" type="tel" maxlength="20"></div>' +
+      '<div class="fld full"><label for="rpWhere">Where did it happen?</label><input id="rpWhere" required maxlength="120" placeholder="e.g. near the UPSA gate"></div>' +
+      '<div class="fld full"><label for="rpHostel">Hostel they claimed to represent (optional)</label><input id="rpHostel" maxlength="80"></div>' +
+      '<div class="fld full"><label for="rpWhat">What happened?</label><textarea id="rpWhat" required maxlength="600" placeholder="Say what was demanded and what they told you. Do not include passwords or ID numbers."></textarea></div>' +
+      '<p class="hk-note full" id="rpMsg" role="status"></p>' +
+      '<div class="row full"><button class="btn alert" type="submit">Share report draft</button><button class="btn plain" type="button" data-close="1">Cancel</button></div></form>');
+    $("rpForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      var v = function (id) { return $(id).value.trim(); };
+      var text = "Report: viewing fee demanded near UPSA\nDate: " + stamp() + "\nPlace: " + v("rpWhere") +
+        "\nFee demanded: GH₵ " + v("rpFee") + "\nPerson: " + v("rpWho") +
+        (v("rpPhone") ? "\nPhone/MoMo given: " + v("rpPhone") : "") +
+        (v("rpHostel") ? "\nHostel they claimed to represent: " + v("rpHostel") : "") +
+        "\nWhat happened: " + v("rpWhat") + "\n\nThis is my own account. It has not been verified.";
+      var msg = $("rpMsg");
+      var copy = function () {
+        var fail = function () { msg.textContent = "Could not copy automatically. Select and copy this text:\n\n" + text; };
+        try { navigator.clipboard.writeText(text).then(function () { msg.textContent = "Copied. Paste it into WhatsApp or an email to your student representative."; }, fail); } catch (err) { fail(); }
+      };
+      if (navigator.share) navigator.share({ title: "Viewing fee report", text: text }).catch(function (er) { if (!er || er.name !== "AbortError") copy(); });
+      else copy();
+    });
+  }
+
   updateBadges();
 
   render();
