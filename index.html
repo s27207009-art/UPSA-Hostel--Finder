@@ -1,5 +1,5 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>UPSA Hostel Finder</title>
+<title>H-konet</title>
 <meta name="description" content="Compare prices, room sizes and photos of hostels near UPSA, Madina.">
 <meta name="theme-color" content="#0B2A1F">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230B2A1F'/%3E%3Ctext x='32' y='45' font-size='38' font-weight='800' text-anchor='middle' fill='%23F2B705' font-family='Arial'%3EU%3C/text%3E%3C/svg%3E">
@@ -547,8 +547,8 @@ table.cmp { border-collapse: separate; border-spacing: 0; width: 100%; min-width
 <div class="bar-top">
   <div class="in top">
     <div class="logo">
-      <div class="mark" aria-hidden="true">U</div>
-      <div class="word"><b>UPSA</b><span>Hostel finder</span></div>
+      <div class="mark" aria-hidden="true">H</div>
+      <div class="word"><b>H-konet</b><span>Hostel finder</span></div>
     </div>
     <div class="top-right">
       <button class="btn addbtn" id="addBtn" type="button" aria-expanded="false" aria-controls="addPanel">
@@ -671,7 +671,7 @@ table.cmp { border-collapse: separate; border-spacing: 0; width: 100%; min-width
   <section class="hk-view" id="compareView" hidden aria-label="Compare hostel prices"></section>
   <section class="hk-view" id="reviewsView" hidden aria-label="Student reviews"></section>
   <section class="hk-view" id="landlordView" hidden aria-label="Landlord portal"></section>
-  <footer class="foot"><b>UPSA Hostel Finder</b><p>Prices and availability can change. Always confirm with the hostel and pay only into its official account. Viewing a room is free.</p></footer>
+  <footer class="foot"><b>H-konet</b><p>Prices and availability can change. Always confirm with the hostel and pay only into its official account. Viewing a room is free.</p></footer>
 </div>
 
 <div class="hk-back" id="hkBack" hidden><div class="hk-sheet" id="hkSheet" role="dialog" aria-modal="true"></div></div>
@@ -720,7 +720,8 @@ table.cmp { border-collapse: separate; border-spacing: 0; width: 100%; min-width
       extra: "Facility fee per student. Plus GH₵ 200 refundable deposit and GH₵ 60 hall dues. Total: GH₵ 2,510 (4 in a room) or GH₵ 6,995 (2 in a room).", how: APPLY, src: UPSA_SRC,
       media: [{ t: "img", src: "upsa-hostel-b.jpg", alt: "Matthew Opoku Prempeh Hostel building" }] },
     { id: "h3", name: "Rich Hostel", kind: "private", area: "Near UPSA", walk: null,
-      rooms: [{ n: 4, p: 2000 }, { n: 2, p: 2500 }, { n: 1, p: 2800 }], phone: "+233 20 149 2986", phoneLabel: "Listing desk (broker line, not the manager)", src: "LUWOAP listing" },
+      rooms: [{ n: 4, p: 2000 }, { n: 2, p: 2500 }, { n: 1, p: 2800 }], phone: "+233 20 149 2986", phoneLabel: "Listing desk (broker line, not the manager)", src: "LUWOAP listing",
+      media: [{ t: "video", src: "rich-hostel-video.mp4", poster: "rich-hostel-video-poster.jpg" }] },
     { id: "h5", name: "MB3 Hostel", kind: "private", area: "Madina, near UPSA and University of Ghana", walk: null,
       rooms: [{ n: 4, p: 1700 }, { n: 3, p: 2500 }, { n: 2, p: 3500 }, { n: 1, p: 4500 }], phone: "+233 24 477 8899", phoneLabel: "Manager",
       extra: "Free Wi-Fi. Kitchen and bathroom are private or shared, depending on the room type.",
@@ -730,13 +731,11 @@ table.cmp { border-collapse: separate; border-spacing: 0; width: 100%; min-width
     { id: "h6", name: "Heaven's Gate Hostel", kind: "private", area: "East Legon, near UPSA", walk: null, per: "per semester",
       rooms: [{ n: 4, p: 4500 }],
       extra: "Prices range from GH₵ 4,000 to GH₵ 7,500 depending on room type and features. The air-conditioned 4 in a room is about GH₵ 4,500 and often includes water bills. Self-contained rooms; some have air conditioning, stoves or gas cylinders.",
-      phone: "+233 24 210 3868 / +233 24 424 1720", phoneLabel: "Manager", src: "GetRooms",
+      phone: "+233 24 210 3868", phoneLabel: "Manager", src: "GetRooms",
       media: [{ t: "video", src: "heavens-gate-hostel.mp4", poster: "heavens-gate-hostel-poster.jpg" }, { t: "img", src: "heavens-gate-hostel.jpg", alt: "Heaven's Gate Hostel building" },
         { t: "img", src: "heavens-gate-corridor.jpg", alt: "Heaven's Gate Hostel corridor" },
         { t: "img", src: "heavens-gate-room-2.jpg", alt: "Heaven's Gate Hostel bunk room" },
-        { t: "img", src: "heavens-gate-room-1.jpg", alt: "Heaven's Gate Hostel room with TV and fan" },
-        { t: "video", src: "heavens-gate-video-2.mp4", poster: "heavens-gate-video-2-poster.jpg" },
-        { t: "video", src: "heavens-gate-video-3.mp4", poster: "heavens-gate-video-3-poster.jpg" }] },
+        { t: "img", src: "heavens-gate-room-1.jpg", alt: "Heaven's Gate Hostel room with TV and fan" }] },
     { id: "h7", name: "Kitatsu", kind: "private", area: "Madina, near UPSA", walk: 5, per: "per year",
       rooms: [{ n: 2, p: 7000 }],
       extra: "All-female hostel; males are not allowed, even in the waiting area. About GH₵ 7,000 per year, so confirm with the manager. Light and water bills are included.",
@@ -749,10 +748,10 @@ table.cmp { border-collapse: separate; border-spacing: 0; width: 100%; min-width
       extra: "Per year: GH₵ 3,000 (3 in a room), GH₵ 3,600 (2 in a room), GH₵ 5,300 (1 in a room). Water, electricity and a kitchenette. Bathrooms and kitchens are shared in some room types.",
       src: "HostelGig",
       media: [{ t: "img", src: "goodwill-plaza-hostel.jpg", alt: "Goodwill Plaza Hostel front" }] },
-    { id: "h9", name: "Amon Kotei Hostel", kind: "upsa", area: "UPSA-managed", walk: null,
+    { id: "h9", name: "Nii Amon Kotei Hostel (C)", kind: "upsa", area: "UPSA-managed", walk: null,
       rooms: [{ n: 4, p: 2360 }, { n: 2, p: 6845 }], phone: "+233 30 291 3535 / +233 56 038 7551 / +233 26 262 1591", phoneLabel: "UPSA hostel office",
       extra: "Facility fee per student. Plus GH₵ 200 refundable deposit and GH₵ 60 hall dues. Total: GH₵ 2,620 (4 in a room) or GH₵ 7,105 (2 in a room).", how: APPLY, src: UPSA_SRC,
-      media: [{ t: "video", src: "upsa-hostel-c.mp4", poster: "upsa-hostel-c-poster.jpg" }, { t: "img", src: "upsa-hostel-c.jpg", alt: "Amon Kotei Hostel at dusk" }] },
+      media: [{ t: "video", src: "upsa-hostel-c.mp4", poster: "upsa-hostel-c-poster.jpg" }, { t: "img", src: "upsa-hostel-c.jpg", alt: "Nii Amon Kotei Hostel (C) at dusk" }] },
     { id: "h10", name: "Prestige Hostel", kind: "private", area: "Opposite UPSA campus, New Dr Rd", walk: 4,
       rooms: [{ n: 4, p: 3600 }, { n: 2, p: 4900 }],
       extra: "Each room has its own prepaid electricity meter, a kitchenette and a washroom. A 1-in-a-room option is also offered.",
@@ -844,7 +843,7 @@ table.cmp { border-collapse: separate; border-spacing: 0; width: 100%; min-width
     var phone = contactHtml(h);
     var how = h.how || ((h.mine || h.rooms.length) ? "" : "Price not available yet. Contact the hostel to confirm.");
     var remove = h.mine ? '<button class="linkbtn" type="button" data-remove="' + esc(h.id) + '">Remove</button>' : "";
-    var actions = (h.kind !== "upsa" && h.rooms.length)
+    var actions = (h.rooms.length)
       ? '<div class="hk-actions"><button class="btn sm" type="button" data-book="' + esc(h.id) + '">Book free viewing</button>' +
         '<button class="btn sm ghost" type="button" data-reserve="' + esc(h.id) + '">Reserve via escrow</button></div>' : "";
     var more = (h.extra || how) ? '<details class="more"><summary>Details and how to book</summary>' + (h.extra ? '<p class="extra">' + esc(h.extra) + '</p>' : '') + (how ? '<p class="how">' + esc(how) + '</p>' : '') + '</details>' : "";
@@ -879,7 +878,7 @@ table.cmp { border-collapse: separate; border-spacing: 0; width: 100%; min-width
     if (!h.phone) return "";
     var nums = String(h.phone).split("/").map(function (x) { return x.trim(); }).filter(Boolean);
     var label = h.phoneLabel || "Contact";
-    var msg = encodeURIComponent("Hello, I found " + h.name + " on the UPSA Hostel Finder. Is a room still available?");
+    var msg = encodeURIComponent("Hello, I found " + h.name + " on H-konet. Is a room still available?");
     return '<div class="contact"><p class="clabel">' + esc(label) + '</p>' + nums.map(function (n, i) {
       var tel = "tel:" + n.replace(/[^+\d]/g, "");
       var wa = waNumber(n);
@@ -1190,7 +1189,7 @@ table.cmp { border-collapse: separate; border-spacing: 0; width: 100%; min-width
       '<ol class="paysteps"><li>Call or WhatsApp the hostel first and confirm the account name.</li>' +
       '<li>Send the money from your own MoMo app or bank app.</li>' +
       '<li>Ask for a written receipt that names the room and the amount.</li></ol></form>' +
-      '<p class="demo-note">UPSA-managed hostels (Hostel A, Hostel B, Amon Kotei) are not listed here. Apply and pay through the UPSA hostel portal.</p>';
+      '<p class="demo-note">UPSA-managed hostels (Hostel A, Hostel B, Hostel C) are not listed here. Apply and pay through the UPSA hostel portal.</p>';
   }
 
   /* ---- Escrow ---- */
@@ -1530,7 +1529,7 @@ getDocs(collection(db, "hostels"))
   .catch(() => {});
 // Hostel assistant (Firebase AI Logic). Models are tried in order; edit MODELS if Google retires one.
 const MODELS = ["gemini-3.8-flash", "gemini-3.5-flash-lite"];
-const SYS = "You are the UPSA Hostel Finder assistant. You help students find hostels near the University of Professional Studies, Accra (UPSA) in Madina, Ghana. Answer ONLY from the hostel data at the end of this message. You may answer about: which hostels are listed, prices (room fees in Ghana cedis, GH\u20B5), room sizes, areas and walking distance, how to book, phone numbers and map links. Rules: (1) Never invent hostels, prices, phone numbers or facts. If the data does not say, say you do not have it and suggest contacting the hostel. (2) Each hostel has an availability field. If it says Not checked, you do NOT know whether rooms are free: say so, and tell the student to confirm with the hostel or the UPSA portal, giving the phone number or booking note if one is listed. Otherwise report the status together with the date it was checked, and say it may have changed since, so they should confirm before paying. (3) Prices are listed room fees only and can change. Remind students to ask for a written total including utilities, deposit and other charges before paying. (4) Warn students to pay only into a verified hostel account, never to a stranger's MoMo number, and never to pay agents just to view rooms. (5) If asked about anything other than these hostels, politely say you can only help with hostels near UPSA. (6) Keep answers short, friendly and plain text with no markdown tables. Use a short list when comparing hostels. Hostel data (JSON): ";
+const SYS = "You are the H-konet assistant. You help students find hostels near the University of Professional Studies, Accra (UPSA) in Madina, Ghana. Answer ONLY from the hostel data at the end of this message. You may answer about: which hostels are listed, prices (room fees in Ghana cedis, GH\u20B5), room sizes, areas and walking distance, how to book, phone numbers and map links. Rules: (1) Never invent hostels, prices, phone numbers or facts. If the data does not say, say you do not have it and suggest contacting the hostel. (2) Each hostel has an availability field. If it says Not checked, you do NOT know whether rooms are free: say so, and tell the student to confirm with the hostel or the UPSA portal, giving the phone number or booking note if one is listed. Otherwise report the status together with the date it was checked, and say it may have changed since, so they should confirm before paying. (3) Prices are listed room fees only and can change. Remind students to ask for a written total including utilities, deposit and other charges before paying. (4) Warn students to pay only into a verified hostel account, never to a stranger's MoMo number, and never to pay agents just to view rooms. (5) If asked about anything other than these hostels, politely say you can only help with hostels near UPSA. (6) Keep answers short, friendly and plain text with no markdown tables. Use a short list when comparing hostels. Hostel data (JSON): ";
 const ai = getAI(app, { backend: new GoogleAIBackend() });
 let chat = null, lastData = "", mi = 0;
 const withTimeout = (p, ms) => new Promise((res, rej) => {
