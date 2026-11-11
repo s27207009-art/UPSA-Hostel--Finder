@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body class="nav-collapsed">
 <title>H-konet</title>
 <meta name="description" content="Compare prices, room sizes and photos of hostels near UPSA, Madina.">
 <meta name="theme-color" content="#0B2A1F">
@@ -542,6 +542,14 @@ table.cmp { border-collapse: separate; border-spacing: 0; width: 100%; min-width
 .rev-tag { margin: 2px 0 6px; font-size: .74rem; color: var(--muted); }
 .rev p { margin: 0 0 6px; font-size: .88rem; }
 @media (min-width: 900px) { .hero-in { padding-block: 24px 0; } .gallery > * { height: 175px; } }
+
+/* Collapsible bottom navigation */
+.nav { transition: transform .22s ease, opacity .22s ease; }
+body.nav-collapsed .nav { transform: translateY(110%); opacity: 0; pointer-events: none; }
+.nav-toggle { position: fixed; left: 12px; bottom: calc(10px + env(safe-area-inset-bottom, 0px)); z-index: 10; min-height: 42px; padding: 0 15px; border: 0; border-radius: 999px; background: var(--night); color: #fff; font: 700 .86rem var(--font); box-shadow: 0 5px 16px rgba(11,42,31,.25); cursor: pointer; }
+.nav-toggle:active { transform: scale(.97); }
+body:not(.nav-collapsed) .nav-toggle { bottom: calc(58px + env(safe-area-inset-bottom, 0px)); background: var(--gold); color: var(--night); }
+@media (prefers-reduced-motion: reduce) { .nav { transition: none; } }
 </style>
 
 <div class="bar-top">
@@ -676,7 +684,8 @@ table.cmp { border-collapse: separate; border-spacing: 0; width: 100%; min-width
 
 <div class="hk-back" id="hkBack" hidden><div class="hk-sheet" id="hkSheet" role="dialog" aria-modal="true"></div></div>
 
-<nav class="nav" aria-label="Main">
+<button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="mainNav" aria-label="Show navigation tabs">☰ <span>Tabs</span></button>
+<nav class="nav" id="mainNav" aria-label="Main">
   <div class="nav-in">
     <button type="button" data-nav="discover" aria-current="page">
       <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-5h4v5"/></svg>Discover</button>
@@ -988,6 +997,13 @@ table.cmp { border-collapse: separate; border-spacing: 0; width: 100%; min-width
   });
   var menu = $("menu"), burger = $("burger");
   function toggleMenu(open) { menu.hidden = !open; burger.setAttribute("aria-expanded", String(open)); }
+  var navToggle = $("navToggle");
+  navToggle.addEventListener("click", function () {
+    var collapsed = document.body.classList.toggle("nav-collapsed");
+    navToggle.setAttribute("aria-expanded", String(!collapsed));
+    navToggle.setAttribute("aria-label", collapsed ? "Show navigation tabs" : "Hide navigation tabs");
+    navToggle.querySelector("span").textContent = collapsed ? "Tabs" : "Hide";
+  });
   burger.addEventListener("click", function () { toggleMenu(menu.hidden); });
   menu.addEventListener("click", function (e) {
     var b = e.target.closest("button"); if (!b) return;
