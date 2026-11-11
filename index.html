@@ -365,6 +365,12 @@ h2.sec::after { width: 36px; height: 3px; margin-top: 6px; }
 .cost-note { margin: 0 0 12px; font-size: .78rem; color: var(--muted); }
 .cost-note strong { color: var(--ink); }
 
+/* Keep every hostel photo/video gallery visible even while details are collapsed. */
+.card > .gwrap { display: block !important; visibility: visible !important; }
+.card > .gwrap .gallery { display: flex !important; visibility: visible !important; }
+.card > .gwrap .gallery > img,
+.card > .gwrap .gallery > video { display: block !important; visibility: visible !important; }
+
 /* Hostel cards open only when the visitor taps the details prompt. */
 .hostel-expand { margin: 4px 4px 0; border-top: 1px solid var(--line); }
 .hostel-expand > summary { min-height: 42px; display: flex; align-items: center; justify-content: space-between; gap: 10px; cursor: pointer; list-style: none; color: var(--forest); font-weight: 750; font-size: .88rem; }
@@ -880,8 +886,9 @@ body:not(.nav-collapsed) .nav-toggle { bottom: calc(58px + env(safe-area-inset-b
       (h.kind === "upsa" ? ' <span class="badge">Official</span>' : '') + (h.mine ? ' <span class="badge you">Added by you</span>' : '') + '</p></div>' +
       '<button class="save" type="button" data-save="' + esc(h.id) + '" aria-pressed="' + isSaved + '" aria-label="' + (isSaved ? "Remove " : "Save " ) + esc(h.name) + '">' +
       '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"/></svg></button></div>' +
+      gal +
       '<details class="hostel-expand"><summary>View hostel details</summary><div class="hostel-expand-body">' +
-      gal + availHtml(h) + priceBlock + rooms + walk + actions + more + phone + mapRow +
+      availHtml(h) + priceBlock + rooms + walk + actions + more + phone + mapRow +
       (remove ? '<p class="src">' + remove + '</p>' : '') + '</div></details></article>';
 
   }
