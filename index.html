@@ -364,6 +364,15 @@ h2.sec::after { width: 36px; height: 3px; margin-top: 6px; }
 .sort select { min-height: 36px; border-radius: 10px; font-size: .88rem; }
 .cost-note { margin: 0 0 12px; font-size: .78rem; color: var(--muted); }
 .cost-note strong { color: var(--ink); }
+
+/* Hostel cards open only when the visitor taps the details prompt. */
+.hostel-expand { margin: 4px 4px 0; border-top: 1px solid var(--line); }
+.hostel-expand > summary { min-height: 42px; display: flex; align-items: center; justify-content: space-between; gap: 10px; cursor: pointer; list-style: none; color: var(--forest); font-weight: 750; font-size: .88rem; }
+.hostel-expand > summary::-webkit-details-marker { display: none; }
+.hostel-expand > summary::after { content: "+"; font-size: 1.25rem; line-height: 1; }
+.hostel-expand[open] > summary::after { content: "−"; }
+.hostel-expand-body { display: grid; gap: 8px; padding: 0 0 4px; }
+
 /* cards: compact */
 .grid { gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
 .card { gap: 8px; padding: 8px 8px 12px; border-radius: var(--r); }
@@ -866,13 +875,15 @@ body:not(.nav-collapsed) .nav-toggle { bottom: calc(58px + env(safe-area-inset-b
       '<span class="tile" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0113 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3" fill="#fff" stroke="none"/></svg></span>' +
       '<span class="mt"><strong>View on map</strong><small>' + esc(h.area) + '</small></span>' +
       '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a>';
-    return '<article class="card">' + gal +
+    return '<article class="card">' +
       '<div class="card-top"><div><h3>' + esc(h.name) + '</h3><p class="area">' + esc(h.area) +
       (h.kind === "upsa" ? ' <span class="badge">Official</span>' : '') + (h.mine ? ' <span class="badge you">Added by you</span>' : '') + '</p></div>' +
-      '<button class="save" type="button" data-save="' + esc(h.id) + '" aria-pressed="' + isSaved + '" aria-label="' + (isSaved ? "Remove " : "Save ") + esc(h.name) + '">' +
+      '<button class="save" type="button" data-save="' + esc(h.id) + '" aria-pressed="' + isSaved + '" aria-label="' + (isSaved ? "Remove " : "Save " ) + esc(h.name) + '">' +
       '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"/></svg></button></div>' +
-      availHtml(h) + priceBlock + rooms + walk + actions + more + phone + mapRow +
-      (remove ? '<p class="src">' + remove + '</p>' : '') + '</article>';
+      '<details class="hostel-expand"><summary>View hostel details</summary><div class="hostel-expand-body">' +
+      gal + availHtml(h) + priceBlock + rooms + walk + actions + more + phone + mapRow +
+      (remove ? '<p class="src">' + remove + '</p>' : '') + '</div></details></article>';
+
   }
 
 
