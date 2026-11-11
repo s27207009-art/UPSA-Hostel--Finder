@@ -149,6 +149,18 @@ h2.sec::after { content: ""; display: block; width: 48px; height: 4px; border-ra
 .track i { display: block; height: 100%; background: var(--leaf); border-radius: 3px; }
 .phone { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
 .phone .num { font-weight: 700; font-variant-numeric: tabular-nums; user-select: all; }
+.nav-in { grid-template-columns: repeat(6, 1fr) !important; max-width: 640px !important; }
+.paybtn { background: #fbbf24; border-color: #fbbf24; color: #3a2a00; }
+.payamt { font-size: 1.3rem; font-weight: 800; color: var(--leaf); }
+.paybox { display: grid; gap: 6px; padding: 12px; border: 1px solid var(--line); border-radius: 14px; background: var(--mist); }
+.paybox .num { font-size: 1.15rem; font-weight: 800; font-variant-numeric: tabular-nums; user-select: all; }
+.paybox .pm { font-size: .86rem; color: var(--muted); }
+.paysteps { margin: 0; padding-left: 20px; font-size: .88rem; color: var(--muted); grid-column: 1 / -1; }
+.contact { display: grid; gap: 8px; }
+.clabel { margin: 0; font-size: .8rem; color: var(--muted); font-weight: 600; }
+.cbtns { display: flex; gap: 6px; flex-wrap: wrap; }
+.cbtns .btn { text-decoration: none; }
+.btn.wa { background: #1fa855; border-color: #1fa855; color: #fff; }
 .src { margin: auto 6px 0; padding-top: 10px; border-top: 1px solid var(--line); font-size: .8rem; color: var(--muted); display: flex; justify-content: flex-end; gap: 10px; align-items: center; flex-wrap: wrap; }
 .linkbtn { background: none; border: 0; padding: 8px 4px; color: var(--leaf); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 .gallery { display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x mandatory; border-radius: 14px; -webkit-overflow-scrolling: touch; }
@@ -554,6 +566,7 @@ table.cmp { border-collapse: separate; border-spacing: 0; width: 100%; min-width
       <button type="button" data-menu="reviews">Student reviews</button>
       <button type="button" data-menu="passes">My viewing passes</button>
       <button type="button" data-menu="escrow">Escrow</button>
+      <button type="button" data-menu="pay">Pay a hostel</button>
       <button type="button" data-menu="landlord">Landlord portal</button>
       <button type="button" data-menu="report">Report a rogue agent</button>
       <button type="button" data-menu="saved">Saved</button>
@@ -654,6 +667,7 @@ table.cmp { border-collapse: separate; border-spacing: 0; width: 100%; min-width
 
   <section class="hk-view" id="passesView" hidden aria-label="My viewing passes"></section>
   <section class="hk-view" id="escrowView" hidden aria-label="Escrow"></section>
+  <section class="hk-view" id="payView" hidden aria-label="Pay a hostel"></section>
   <section class="hk-view" id="compareView" hidden aria-label="Compare hostel prices"></section>
   <section class="hk-view" id="reviewsView" hidden aria-label="Student reviews"></section>
   <section class="hk-view" id="landlordView" hidden aria-label="Landlord portal"></section>
@@ -672,6 +686,8 @@ table.cmp { border-collapse: separate; border-spacing: 0; width: 100%; min-width
       <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>Passes<span class="nbadge" hidden>0</span></button>
     <button type="button" data-nav="escrow">
       <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>Escrow<span class="nbadge" hidden>0</span></button>
+    <button type="button" data-nav="pay">
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/></svg>Pay</button>
     <button type="button" data-nav="saved">
       <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"/></svg>Saved</button>
   </div>
@@ -694,19 +710,19 @@ table.cmp { border-collapse: separate; border-spacing: 0; width: 100%; min-width
   var UPSA_SRC = "UPSA published hostel fees";
   var BASE = [
     { id: "h1", name: "UPSA Hostel A", kind: "upsa", area: "UPSA-managed", walk: null,
-      rooms: [{ n: 4, p: 1810 }, { n: 2, p: 5440 }],
+      rooms: [{ n: 4, p: 1810 }, { n: 2, p: 5440 }], phone: "+233 30 291 3535 / +233 56 038 7551 / +233 26 262 1591", phoneLabel: "UPSA hostel office",
       extra: "Facility fee per student. Plus GH₵ 200 refundable deposit and GH₵ 60 hall dues. Total: GH₵ 2,070 (4 in a room) or GH₵ 5,700 (2 in a room).", how: APPLY, src: UPSA_SRC,
       media: [{ t: "img", src: "upsa-hostel-a.jpg", alt: "UPSA Hostel A building" },
         { t: "img", src: "hostel-a-corridor.jpg", alt: "UPSA Hostel A corridor" },
         { t: "img", src: "hostel-a-room.jpg", alt: "UPSA Hostel A bunk room" }] },
     { id: "h2", name: "Matthew Opoku Prempeh Hostel (Hostel B)", kind: "upsa", area: "UPSA-managed", walk: null,
-      rooms: [{ n: 4, p: 2250 }, { n: 2, p: 6735 }],
+      rooms: [{ n: 4, p: 2250 }, { n: 2, p: 6735 }], phone: "+233 30 291 3535 / +233 56 038 7551 / +233 26 262 1591", phoneLabel: "UPSA hostel office",
       extra: "Facility fee per student. Plus GH₵ 200 refundable deposit and GH₵ 60 hall dues. Total: GH₵ 2,510 (4 in a room) or GH₵ 6,995 (2 in a room).", how: APPLY, src: UPSA_SRC,
       media: [{ t: "img", src: "upsa-hostel-b.jpg", alt: "Matthew Opoku Prempeh Hostel building" }] },
     { id: "h3", name: "Rich Hostel", kind: "private", area: "Near UPSA", walk: null,
-      rooms: [{ n: 4, p: 2000 }, { n: 2, p: 2500 }, { n: 1, p: 2800 }], src: "LUWOAP listing" },
+      rooms: [{ n: 4, p: 2000 }, { n: 2, p: 2500 }, { n: 1, p: 2800 }], phone: "+233 20 149 2986", phoneLabel: "Listing desk (broker line, not the manager)", src: "LUWOAP listing" },
     { id: "h5", name: "MB3 Hostel", kind: "private", area: "Madina, near UPSA and University of Ghana", walk: null,
-      rooms: [{ n: 4, p: 1700 }, { n: 3, p: 2500 }, { n: 2, p: 3500 }, { n: 1, p: 4500 }],
+      rooms: [{ n: 4, p: 1700 }, { n: 3, p: 2500 }, { n: 2, p: 3500 }, { n: 1, p: 4500 }], phone: "+233 24 477 8899", phoneLabel: "Manager",
       extra: "Free Wi-Fi. Kitchen and bathroom are private or shared, depending on the room type.",
       how: "Confirm availability with the hostel. Pay only into the official hostel bank account, not MoMo numbers.",
       src: "HostelGig",
@@ -714,7 +730,7 @@ table.cmp { border-collapse: separate; border-spacing: 0; width: 100%; min-width
     { id: "h6", name: "Heaven's Gate Hostel", kind: "private", area: "East Legon, near UPSA", walk: null, per: "per semester",
       rooms: [{ n: 4, p: 4500 }],
       extra: "Prices range from GH₵ 4,000 to GH₵ 7,500 depending on room type and features. The air-conditioned 4 in a room is about GH₵ 4,500 and often includes water bills. Self-contained rooms; some have air conditioning, stoves or gas cylinders.",
-      phone: "0242103868 / 0244241720", src: "GetRooms",
+      phone: "+233 24 210 3868 / +233 24 424 1720", phoneLabel: "Manager", src: "GetRooms",
       media: [{ t: "video", src: "heavens-gate-hostel.mp4", poster: "heavens-gate-hostel-poster.jpg" }, { t: "img", src: "heavens-gate-hostel.jpg", alt: "Heaven's Gate Hostel building" },
         { t: "img", src: "heavens-gate-corridor.jpg", alt: "Heaven's Gate Hostel corridor" },
         { t: "img", src: "heavens-gate-room-2.jpg", alt: "Heaven's Gate Hostel bunk room" },
@@ -724,23 +740,23 @@ table.cmp { border-collapse: separate; border-spacing: 0; width: 100%; min-width
     { id: "h7", name: "Kitatsu", kind: "private", area: "Madina, near UPSA", walk: 5, per: "per year",
       rooms: [{ n: 2, p: 7000 }],
       extra: "All-female hostel; males are not allowed, even in the waiting area. About GH₵ 7,000 per year, so confirm with the manager. Light and water bills are included.",
-      phone: "+233 24 350 1965", src: "GetRooms",
+      phone: "+233 24 350 1965", phoneLabel: "Manager", src: "GetRooms",
       media: [{ t: "img", src: "kitatsu-hostel.jpg", alt: "Kitatsu Hostel gate" },
         { t: "img", src: "kitatsu-front.jpg", alt: "Kitatsu Hostel building and garden" },
         { t: "img", src: "kitatsu-room.jpg", alt: "Kitatsu Hostel room" }] },
     { id: "h8", name: "Goodwill Plaza", kind: "private", area: "Near UPSA", walk: null, per: "per semester",
-      rooms: [{ n: 3, p: 1500 }, { n: 2, p: 1800 }, { n: 1, p: 2650 }],
+      rooms: [{ n: 3, p: 1500 }, { n: 2, p: 1800 }, { n: 1, p: 2650 }], phone: "+233 27 776 6270", phoneLabel: "Manager", pay: { payee: "Goodwill", momo: "+233 27 776 6270" },
       extra: "Per year: GH₵ 3,000 (3 in a room), GH₵ 3,600 (2 in a room), GH₵ 5,300 (1 in a room). Water, electricity and a kitchenette. Bathrooms and kitchens are shared in some room types.",
       src: "HostelGig",
       media: [{ t: "img", src: "goodwill-plaza-hostel.jpg", alt: "Goodwill Plaza Hostel front" }] },
     { id: "h9", name: "Amon Kotei Hostel", kind: "upsa", area: "UPSA-managed", walk: null,
-      rooms: [{ n: 4, p: 2360 }, { n: 2, p: 6845 }],
+      rooms: [{ n: 4, p: 2360 }, { n: 2, p: 6845 }], phone: "+233 30 291 3535 / +233 56 038 7551 / +233 26 262 1591", phoneLabel: "UPSA hostel office",
       extra: "Facility fee per student. Plus GH₵ 200 refundable deposit and GH₵ 60 hall dues. Total: GH₵ 2,620 (4 in a room) or GH₵ 7,105 (2 in a room).", how: APPLY, src: UPSA_SRC,
       media: [{ t: "video", src: "upsa-hostel-c.mp4", poster: "upsa-hostel-c-poster.jpg" }, { t: "img", src: "upsa-hostel-c.jpg", alt: "Amon Kotei Hostel at dusk" }] },
     { id: "h10", name: "Prestige Hostel", kind: "private", area: "Opposite UPSA campus, New Dr Rd", walk: 4,
       rooms: [{ n: 4, p: 3600 }, { n: 2, p: 4900 }],
       extra: "Each room has its own prepaid electricity meter, a kitchenette and a washroom. A 1-in-a-room option is also offered.",
-      phone: "+233 24 272 5009", src: "Prices reported by The 1957 News, citing the Rent Control Commission. Not confirmed by the hostel.",
+      phone: "+233 24 272 5009", phoneLabel: "Manager", src: "Prices reported by The 1957 News, citing the Rent Control Commission. Not confirmed by the hostel.",
       media: [{ t: "img", src: "prestige-hostel.jpg", alt: "Prestige Hostel building opposite UPSA" }] }
   ];
   var K_SAVED = "upsa-hostel-saved-v2", K_MINE = "upsa-hostel-mine-v2";
@@ -778,7 +794,7 @@ table.cmp { border-collapse: separate; border-spacing: 0; width: 100%; min-width
       out.push({ id: "r" + d.id, name: String(d.name), kind: d.kind === "upsa" ? "upsa" : "private",
         area: d.area ? String(d.area) : "Near UPSA", walk: isFinite(d.walk) ? +d.walk : null,
         per: d.per ? String(d.per) : undefined, rooms: rooms,
-        extra: d.extra ? String(d.extra) : undefined, phone: d.phone ? String(d.phone) : undefined });
+        extra: d.extra ? String(d.extra) : undefined, pay: (d.pay && d.pay.momo) ? { payee: String(d.pay.payee || ""), momo: String(d.pay.momo) } : undefined, phone: d.phone ? String(d.phone) : undefined, phoneLabel: d.phoneLabel ? String(d.phoneLabel) : undefined });
     });
     remote = out; render();
   });
@@ -825,9 +841,7 @@ table.cmp { border-collapse: separate; border-spacing: 0; width: 100%; min-width
     var walk = h.walk == null ? "" :
       '<div><div class="walk-label"><span>Walk to campus</span><strong>' + h.walk + ' min</strong></div>' +
       '<div class="track" aria-hidden="true"><i style="width:' + Math.max(4, Math.round(h.walk / 60 * 100)) + '%"></i></div></div>';
-    var phone = h.phone
-      ? '<div class="phone"><span class="num" id="num-' + esc(h.id) + '">' + esc(h.phone) + '</span>' +
-        '<button class="btn plain sm" type="button" data-copy="' + esc(h.id) + '">Copy number</button></div>' : "";
+    var phone = contactHtml(h);
     var how = h.how || ((h.mine || h.rooms.length) ? "" : "Price not available yet. Contact the hostel to confirm.");
     var remove = h.mine ? '<button class="linkbtn" type="button" data-remove="' + esc(h.id) + '">Remove</button>' : "";
     var actions = (h.kind !== "upsa" && h.rooms.length)
@@ -853,6 +867,28 @@ table.cmp { border-collapse: separate; border-spacing: 0; width: 100%; min-width
       (remove ? '<p class="src">' + remove + '</p>' : '') + '</article>';
   }
 
+
+  function waNumber(raw) {
+    var d = String(raw).replace(/[^\d]/g, "");
+    if (d.indexOf("233") === 0) d = d.slice(3); else if (d.charAt(0) === "0") d = d.slice(1);
+    if (d.length !== 9) return null;
+    if (d.slice(0, 2) === "30") return null; /* Accra landline: not on WhatsApp */
+    return "233" + d;
+  }
+  function contactHtml(h) {
+    if (!h.phone) return "";
+    var nums = String(h.phone).split("/").map(function (x) { return x.trim(); }).filter(Boolean);
+    var label = h.phoneLabel || "Contact";
+    var msg = encodeURIComponent("Hello, I found " + h.name + " on the UPSA Hostel Finder. Is a room still available?");
+    return '<div class="contact"><p class="clabel">' + esc(label) + '</p>' + nums.map(function (n, i) {
+      var tel = "tel:" + n.replace(/[^+\d]/g, "");
+      var wa = waNumber(n);
+      return '<div class="phone"><span class="num" id="num-' + esc(h.id) + "-" + i + '">' + esc(n) + '</span>' +
+        '<span class="cbtns"><a class="btn sm" href="' + esc(tel) + '">Call</a>' +
+        (wa ? '<a class="btn sm wa" href="https://wa.me/' + wa + '?text=' + msg + '" target="_blank" rel="noopener">WhatsApp</a>' : '') +
+        '<button class="btn plain sm" type="button" data-copy="' + esc(h.id) + "-" + i + '">Copy</button></span></div>';
+    }).join("") + '</div>';
+  }
 
   function stats() {
     var a = all(), m = null;
@@ -902,7 +938,7 @@ table.cmp { border-collapse: separate; border-spacing: 0; width: 100%; min-width
     if (go === "add") { toggleAdd(true); return; }
     if (go === "map") { window.open(MAPS_ALL, "_blank", "noopener"); return; }
     if (go === "report") { openReport(); return; }
-    if (go === "passes" || go === "escrow" || go === "landlord" || go === "compare" || go === "reviews") { setNav(go); showView(go); return; }
+    if (go === "passes" || go === "escrow" || go === "pay" || go === "landlord" || go === "compare" || go === "reviews") { setNav(go); showView(go); return; }
     showView("", go);
     setNav(go);
     showSaved = go === "saved";
@@ -923,7 +959,7 @@ table.cmp { border-collapse: separate; border-spacing: 0; width: 100%; min-width
       store(K_MINE, mine); store(K_SAVED, saved); render();
     } else if (t.dataset.copy) {
       var span = $("num-" + t.dataset.copy), btn = t;
-      var done = function (m) { btn.textContent = m; setTimeout(function () { btn.textContent = "Copy number"; }, 1600); };
+      var done = function (m) { btn.textContent = m; setTimeout(function () { btn.textContent = "Copy"; }, 1600); };
       var fallback = function () {
         var r = document.createRange(); r.selectNodeContents(span);
         var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); done("Selected");
@@ -1037,7 +1073,7 @@ table.cmp { border-collapse: separate; border-spacing: 0; width: 100%; min-width
   function loadObj(k) { try { var v = JSON.parse(localStorage.getItem(k) || "{}"); return v && typeof v === "object" && !Array.isArray(v) ? v : {}; } catch (e) { return {}; } }
   var passes = load(K_PASS), txs = load(K_TX);
   var lav = loadObj(K_LAV), ver = loadObj(K_VER);
-  var VIEWS = { passes: $("passesView"), escrow: $("escrowView"), landlord: $("landlordView"), compare: $("compareView"), reviews: $("reviewsView") };
+  var VIEWS = { passes: $("passesView"), escrow: $("escrowView"), pay: $("payView"), landlord: $("landlordView"), compare: $("compareView"), reviews: $("reviewsView") };
   var back = $("hkBack"), sheet = $("hkSheet");
   var lh = null, ltab = "avail", lpick = null, lpickFor = null;
 
@@ -1117,6 +1153,44 @@ table.cmp { border-collapse: separate; border-spacing: 0; width: 100%; min-width
     var head = '<h2 class="sec">My viewing passes</h2><p class="demo-note">Prototype: passes are saved on this device only. Call or message the hostel to confirm your time. Viewing is always free.</p>';
     if (!passes.length) return head + '<div class="empty"><strong>No viewing passes yet</strong>Open a private hostel and tap "Book free viewing".<br><button class="linkbtn" type="button" data-go="browse">Browse hostels</button></div>';
     return head + '<div class="hk-list">' + passes.map(passCard).join("") + "</div>";
+  }
+
+  var payH = "", payN = 0;
+  function payableHostels() { return all().filter(function (h) { return h.kind !== "upsa" && h.rooms.length; }); }
+  function payHtml() {
+    var head = '<h2 class="sec">Pay a hostel</h2><div class="hk-box warn"><strong>Direct payments only. No escrow.</strong> Money goes straight to the hostel. H-konet does not hold, refund or reverse it. See the room first, confirm the payment details by phone and get a written receipt.</div>';
+    var list = payableHostels();
+    if (!list.length) return head + '<div class="empty"><strong>No hostels available</strong></div>';
+    var h = byId(payH); if (!h || h.kind === "upsa" || !h.rooms.length) { h = list[0]; payH = h.id; payN = 0; }
+    if (!h.rooms.some(function (r) { return r.n === payN; })) payN = h.rooms.slice().sort(function (a, b) { return b.n - a.n; })[0].n;
+    var hostOpts = list.map(function (x) { return '<option value="' + esc(x.id) + '"' + (x.id === h.id ? " selected" : "") + ">" + esc(x.name) + "</option>"; }).join("");
+    var roomOptsHtml = h.rooms.slice().sort(function (a, b) { return b.n - a.n; }).map(function (r) {
+      return '<option value="' + r.n + '"' + (r.n === payN ? " selected" : "") + ">" + r.n + " in a room, " + money(r.p) + " " + esc(h.per || "per person") + "</option>";
+    }).join("");
+    var nums = h.phone ? String(h.phone).split("/").map(function (x) { return x.trim(); }).filter(Boolean) : [];
+    var first = nums[0] || "";
+    var wa = first ? waNumber(first) : null;
+    var msg = encodeURIComponent("Hello, I want to pay for a " + payN + "-in-a-room at " + h.name + ". Please confirm the payment details.");
+    var reach = first
+      ? '<span class="cbtns"><a class="btn sm" href="' + esc("tel:" + first.replace(/[^+\d]/g, "")) + '">Call to confirm</a>' +
+        (wa ? '<a class="btn sm wa" href="https://wa.me/' + wa + '?text=' + msg + '" target="_blank" rel="noopener">WhatsApp</a>' : "") + "</span>" : "";
+    var to = h.pay
+      ? '<div class="paybox"><strong>' + esc(h.pay.payee || "Hostel contact") + '</strong><span class="num" id="num-pv">' + esc(h.pay.momo) + '</span>' +
+        '<span class="cbtns"><button class="btn plain sm" type="button" data-pvcopy="1">Copy number</button></span>' + reach + "</div>"
+      : '<div class="paybox"><strong>Payment details not on file yet</strong>' +
+        '<span class="pm">Ask the manager for the official payment account and confirm the account name before you send anything.' + (first ? "" : " No phone number is listed yet.") + "</span>" +
+        (first ? '<span class="num">' + esc(first) + "</span>" + reach : "") + "</div>";
+    return head +
+      '<form class="form payform" onsubmit="return false">' +
+      '<div class="fld full"><label for="pvHost">Hostel</label><select id="pvHost">' + hostOpts + "</select></div>" +
+      '<div class="fld full"><label for="pvRoom">Room type</label><select id="pvRoom">' + roomOptsHtml + "</select></div>" +
+      '<div class="fld full"><label>Amount</label><div class="payamt">' + money(roomPrice(h, payN)) + " " + esc(h.per || "per person") + "</div></div>" +
+      '<div class="fld full"><label>Pay to</label>' + to + "</div>" +
+      '<div class="fld full"><label>Reference to use</label><input readonly value="' + esc(h.name + " " + payN + "-in-a-room") + '"></div>' +
+      '<ol class="paysteps"><li>Call or WhatsApp the hostel first and confirm the account name.</li>' +
+      '<li>Send the money from your own MoMo app or bank app.</li>' +
+      '<li>Ask for a written receipt that names the room and the amount.</li></ol></form>' +
+      '<p class="demo-note">UPSA-managed hostels (Hostel A, Hostel B, Amon Kotei) are not listed here. Apply and pay through the UPSA hostel portal.</p>';
   }
 
   /* ---- Escrow ---- */
@@ -1326,7 +1400,7 @@ table.cmp { border-collapse: separate; border-spacing: 0; width: 100%; min-width
   /* ---- Views and events ---- */
   function renderView(name) {
     var el = VIEWS[name]; if (!el) return;
-    el.innerHTML = name === "passes" ? passesHtml() : name === "escrow" ? escrowHtml() : name === "compare" ? compareHtml() : name === "reviews" ? reviewsHtml() : landlordHtml();
+    el.innerHTML = name === "passes" ? passesHtml() : name === "escrow" ? escrowHtml() : name === "pay" ? payHtml() : name === "compare" ? compareHtml() : name === "reviews" ? reviewsHtml() : landlordHtml();
   }
   function showView(name, go) {
     var isV = !!VIEWS[name];
@@ -1339,6 +1413,8 @@ table.cmp { border-collapse: separate; border-spacing: 0; width: 100%; min-width
     if (isV) { renderView(name); window.scrollTo(0, 0); }
   }
   document.addEventListener("change", function (e) {
+    if (e.target.id === "pvHost") { payH = e.target.value; payN = 0; renderView("pay"); return; }
+    if (e.target.id === "pvRoom") { payN = Number(e.target.value); renderView("pay"); return; }
     if (e.target.id === "revSel") { revF = e.target.value; renderView("reviews"); return; }
     if (e.target.id === "lSel") { lh = e.target.value; lpick = null; lpickFor = null; renderView("landlord"); }
   });
@@ -1347,6 +1423,12 @@ table.cmp { border-collapse: separate; border-spacing: 0; width: 100%; min-width
     var d = t.dataset, h;
     if (d.book) { h = byId(d.book); if (h) bookSheet(h); }
     else if (d.reserve) { h = byId(d.reserve); if (h) reserveSheet(h); }
+    else if (d.pvcopy) {
+      var pn = $("num-pv"); if (pn) {
+        var done = function (m) { t.textContent = m; setTimeout(function () { t.textContent = "Copy number"; }, 1600); };
+        try { navigator.clipboard.writeText(pn.textContent).then(function () { done("Copied"); }, function () { done("Select it"); }); } catch (err) { done("Select it"); }
+      }
+    }
     else if (d.report) openReport();
     else if (d.tips) tipsSheet();
     else if (d.cmp !== undefined) { cmpN = Number(d.cmp); renderView("compare"); }
