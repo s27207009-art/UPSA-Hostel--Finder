@@ -489,11 +489,46 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
 .tips b { color: var(--night); }
 @media (min-width: 760px) {
   .hero-in { padding-block: 34px 0; }
-  .tiles { grid-template-columns: repeat(5, 1fr); }
-  .tile-btn.wide { grid-column: auto; flex-direction: column; align-items: flex-start; gap: 2px; }
-  .tile-btn.wide .ti { margin-bottom: 8px; }
+  .tiles { grid-template-columns: repeat(4, 1fr); }
+  .tile-btn.wide { grid-column: span 2; }
   .banner img { max-width: 420px; }
 }
+
+/* ===== Compare + Reviews ===== */
+.cmp-chips { margin: 0 0 12px; }
+.cmp-wrap { overflow-x: auto; border: 1px solid #E3ECE6; border-radius: 14px; background: #fff; box-shadow: var(--shadow); -webkit-overflow-scrolling: touch; }
+table.cmp { border-collapse: separate; border-spacing: 0; width: 100%; min-width: 560px; font-size: .85rem; }
+.cmp th, .cmp td { padding: 10px 10px; text-align: left; border-bottom: 1px solid #E8F0EA; vertical-align: top; }
+.cmp thead th { background: #F3F8F5; font-size: .72rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); position: sticky; top: 0; white-space: nowrap; }
+.cmp tbody tr:last-child th, .cmp tbody tr:last-child td { border-bottom: 0; }
+.cmp tbody th { position: sticky; left: 0; background: #fff; min-width: 150px; max-width: 190px; font-weight: 400; box-shadow: 1px 0 0 #E8F0EA; }
+.cmp thead th:first-child { position: sticky; left: 0; z-index: 2; box-shadow: 1px 0 0 #E8F0EA; }
+.cmp tbody th b { display: block; font: 700 .88rem/1.25 var(--display); color: var(--night); }
+.cmp tbody th span { display: block; font-size: .72rem; color: var(--muted); margin: 2px 0 4px; }
+.cmp tbody th .linkbtn { font-size: .74rem; padding: 0; min-height: 0; }
+.cmp td { font-weight: 700; color: var(--ink); white-space: nowrap; }
+.cmp td.na { color: #A9B8AE; font-weight: 400; }
+.cmp td.best { color: var(--forest); background: #EAF6EE; }
+.cmp td em { display: block; font: 700 .64rem var(--font); font-style: normal; color: #0F6B3A; text-transform: uppercase; letter-spacing: .04em; }
+.cmp td.on, .cmp th.on { background: #FFF6D6; }
+.cmp td.best.on { background: #DDF1E4; }
+.cmp-h { font: 700 1rem var(--display); margin: 18px 0 8px; color: var(--night); }
+.cmp-note { padding: 10px 12px; background: #fff; border: 1px solid #E3ECE6; border-radius: 12px; }
+.cmp-note b { font-size: .88rem; color: var(--night); }
+.cmp-note p { margin: 3px 0 0; font-size: .82rem; color: var(--muted); }
+.rev-bar { align-items: flex-end; margin-bottom: 12px; }
+.rev-bar .grow { flex: 1 1 180px; }
+.rev-sum { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 12px; scrollbar-width: none; }
+.rev-sum::-webkit-scrollbar { display: none; }
+.rev-chip { flex: none; padding: 10px 12px; background: #fff; border: 1px solid #E3ECE6; border-radius: 12px; display: flex; flex-direction: column; gap: 1px; box-shadow: var(--shadow); }
+.rev-chip b { font-size: .84rem; color: var(--night); }
+.rev-chip small { font-size: .72rem; color: var(--muted); }
+.stars { color: #E0A400; letter-spacing: 1px; font-size: .95rem; }
+.rev { padding: 12px 14px; background: #fff; border: 1px solid #E3ECE6; border-radius: 14px; box-shadow: var(--shadow); }
+.rev-top { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+.rev-top b { font: 700 .98rem var(--display); color: var(--night); }
+.rev-tag { margin: 2px 0 6px; font-size: .74rem; color: var(--muted); }
+.rev p { margin: 0 0 6px; font-size: .88rem; }
 @media (min-width: 900px) { .hero-in { padding-block: 24px 0; } .gallery > * { height: 175px; } }
 </style>
 
@@ -515,6 +550,8 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
       <button type="button" data-menu="discover">Discover</button>
       <button type="button" data-menu="browse">Browse hostels</button>
       <button type="button" data-menu="map">Map</button>
+      <button type="button" data-menu="compare">Compare prices</button>
+      <button type="button" data-menu="reviews">Student reviews</button>
       <button type="button" data-menu="passes">My viewing passes</button>
       <button type="button" data-menu="escrow">Escrow</button>
       <button type="button" data-menu="landlord">Landlord portal</button>
@@ -546,6 +583,8 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
 
 <section class="in tiles" id="tiles" aria-label="Quick actions">
   <button class="tile-btn" type="button" data-go="browse"><span class="ti"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-5h4v5"/></svg></span><b>Find hostels</b><small>Search and compare</small></button>
+  <button class="tile-btn" type="button" data-go="compare"><span class="ti"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v16M17 4v16M3 8l4-4 4 4M13 16l4 4 4-4"/></svg></span><b>Compare prices</b><small>See all hostels side by side</small></button>
+  <button class="tile-btn" type="button" data-go="reviews"><span class="ti"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9 6.8 19.7l1-5.9L3.5 9.7l5.9-.8z"/></svg></span><b>Student reviews</b><small>Real stays, real costs</small></button>
   <button class="tile-btn" type="button" data-go="passes"><span class="ti"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></svg></span><b>Free viewings</b><small>Never pay just to view</small></button>
   <button class="tile-btn" type="button" data-go="escrow"><span class="ti"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></span><b>Safe payment</b><small>Escrow holds your money</small></button>
   <button class="tile-btn" type="button" data-report="1"><span class="ti"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6z"/><path d="M12 8v5M12 16v.5"/></svg></span><b>Report a problem</b><small>Unfair charges, rogue agents</small></button>
@@ -615,6 +654,8 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
 
   <section class="hk-view" id="passesView" hidden aria-label="My viewing passes"></section>
   <section class="hk-view" id="escrowView" hidden aria-label="Escrow"></section>
+  <section class="hk-view" id="compareView" hidden aria-label="Compare hostel prices"></section>
+  <section class="hk-view" id="reviewsView" hidden aria-label="Student reviews"></section>
   <section class="hk-view" id="landlordView" hidden aria-label="Landlord portal"></section>
   <footer class="foot"><b>UPSA Hostel Finder</b><p>Prices and availability can change. Always confirm with the hostel and pay only into its official account. Viewing a room is free.</p></footer>
 </div>
@@ -861,7 +902,7 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
     if (go === "add") { toggleAdd(true); return; }
     if (go === "map") { window.open(MAPS_ALL, "_blank", "noopener"); return; }
     if (go === "report") { openReport(); return; }
-    if (go === "passes" || go === "escrow" || go === "landlord") { setNav(go); showView(go); return; }
+    if (go === "passes" || go === "escrow" || go === "landlord" || go === "compare" || go === "reviews") { setNav(go); showView(go); return; }
     showView("", go);
     setNav(go);
     showSaved = go === "saved";
@@ -996,7 +1037,7 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
   function loadObj(k) { try { var v = JSON.parse(localStorage.getItem(k) || "{}"); return v && typeof v === "object" && !Array.isArray(v) ? v : {}; } catch (e) { return {}; } }
   var passes = load(K_PASS), txs = load(K_TX);
   var lav = loadObj(K_LAV), ver = loadObj(K_VER);
-  var VIEWS = { passes: $("passesView"), escrow: $("escrowView"), landlord: $("landlordView") };
+  var VIEWS = { passes: $("passesView"), escrow: $("escrowView"), landlord: $("landlordView"), compare: $("compareView"), reviews: $("reviewsView") };
   var back = $("hkBack"), sheet = $("hkSheet");
   var lh = null, ltab = "avail", lpick = null, lpickFor = null;
 
@@ -1206,10 +1247,86 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
         '<button class="btn" type="button" data-verify="1">Start verification</button>';
   }
 
+
+  /* ---- Compare prices ---- */
+  var cmpN = 0;
+  function compareHtml() {
+    var sizes = [1, 2, 3, 4];
+    var rows = all().filter(function (h) { return h.rooms && h.rooms.length && (!cmpN || priceFor(h, cmpN) != null); });
+    rows.sort(function (a, b) { return (priceFor(a, cmpN || 0) || 0) - (priceFor(b, cmpN || 0) || 0); });
+    var best = {};
+    sizes.forEach(function (n) {
+      var ps = rows.map(function (h) { return priceFor(h, n); }).filter(function (v) { return v != null; });
+      best[n] = ps.length ? Math.min.apply(null, ps) : null;
+    });
+    var chips = '<div class="chips cmp-chips"><button type="button" class="chip" data-cmp="0" aria-pressed="' + (cmpN === 0) + '">All rooms</button>' +
+      sizes.map(function (n) { return '<button type="button" class="chip" data-cmp="' + n + '" aria-pressed="' + (cmpN === n) + '">' + n + ' in a room</button>'; }).join("") + "</div>";
+    var head = '<h2 class="sec">Compare prices</h2><p class="demo-note">Prices are the listed room fees. Some hostels charge per semester and others per year, so check the period before you compare. Always ask for a written total.</p>' + chips;
+    if (!rows.length) return head + '<div class="empty"><strong>No hostels for this room type</strong>Try another room size.</div>';
+    var table = '<div class="cmp-wrap"><table class="cmp"><thead><tr><th scope="col">Hostel</th>' +
+      sizes.map(function (n) { return '<th scope="col" class="' + (cmpN === n ? "on" : "") + '">' + n + ' in a room</th>'; }).join("") + "</tr></thead><tbody>" +
+      rows.map(function (h) {
+        return '<tr><th scope="row"><b>' + esc(h.name) + '</b><span>' + (h.kind === "upsa" ? "UPSA-managed" : "Private") + " · " + esc(h.per || "per person") + "</span>" +
+          '<button class="linkbtn" type="button" data-book="' + esc(h.id) + '">Book free viewing</button></th>' +
+          sizes.map(function (n) {
+            var v = priceFor(h, n);
+            if (v == null) return '<td class="na">-</td>';
+            return '<td class="' + (v === best[n] ? "best" : "") + (cmpN === n ? " on" : "") + '">' + money(v) + (v === best[n] ? "<em>Lowest</em>" : "") + "</td>";
+          }).join("") + "</tr>";
+      }).join("") + "</tbody></table></div>";
+    var extras = rows.filter(function (h) { return h.extra; });
+    var notes = extras.length ? '<h3 class="cmp-h">Extra charges to know about</h3><div class="hk-list">' + extras.map(function (h) {
+      return '<div class="cmp-note"><b>' + esc(h.name) + "</b><p>" + esc(h.extra) + "</p></div>"; }).join("") + "</div>" : "";
+    return head + table + notes;
+  }
+
+  /* ---- Student reviews (saved on this device) ---- */
+  var K_REV = "hk-reviews-v1", reviews = load(K_REV), revF = "";
+  function stars(n) { var o = ""; for (var i = 1; i <= 5; i++) o += i <= n ? "★" : "☆"; return o; }
+  function reviewsHtml() {
+    var list = reviews.filter(function (r) { return !revF || r.hid === revF; });
+    var opts = '<option value="">All hostels</option>' + all().map(function (h) { return '<option value="' + esc(h.id) + '"' + (revF === h.id ? " selected" : "") + ">" + esc(h.name) + "</option>"; }).join("");
+    var head = '<h2 class="sec">Student reviews</h2><p class="demo-note">Prototype: reviews are saved on this device only. Write only about a hostel you have stayed in or viewed, and keep it honest and fair.</p>' +
+      '<div class="row rev-bar"><div class="fld grow"><label for="revSel">Hostel</label><select id="revSel">' + opts + '</select></div>' +
+      '<button class="btn" type="button" data-revnew="1">Write a review</button></div>';
+    var sum = "";
+    var seen = {};
+    reviews.forEach(function (r) { (seen[r.hid] = seen[r.hid] || []).push(r.stars); });
+    var ids = Object.keys(seen);
+    if (ids.length) sum = '<div class="rev-sum">' + ids.map(function (id) {
+      var h = byId(id); var a = seen[id].reduce(function (x, y) { return x + y; }, 0) / seen[id].length;
+      return '<div class="rev-chip"><b>' + esc(h ? h.name : "Hostel") + '</b><span class="stars">' + stars(Math.round(a)) + "</span><small>" + a.toFixed(1) + " from " + seen[id].length + (seen[id].length === 1 ? " review" : " reviews") + "</small></div>";
+    }).join("") + "</div>";
+    if (!list.length) return head + sum + '<div class="empty"><strong>No reviews yet</strong>Be the first to share what it is really like, including the true total cost.<br><button class="linkbtn" type="button" data-revnew="1">Write a review</button></div>';
+    return head + sum + '<div class="hk-list">' + list.map(function (r) {
+      var h = byId(r.hid);
+      return '<article class="rev"><div class="rev-top"><b>' + esc(h ? h.name : r.name) + '</b><span class="stars" aria-label="' + r.stars + ' out of 5">' + stars(r.stars) + "</span></div>" +
+        '<p class="rev-tag">' + (r.cost === "yes" ? "Total cost matched the advert" : r.cost === "no" ? "Extra charges appeared" : "Cost match not sure") + " · " + esc(r.date) + "</p>" +
+        "<p>" + esc(r.text) + '</p><button class="linkbtn" type="button" data-revdel="' + esc(r.id) + '">Delete</button></article>';
+    }).join("") + "</div>";
+  }
+  function reviewSheet() {
+    var opts = all().map(function (h) { return '<option value="' + esc(h.id) + '"' + (revF === h.id ? " selected" : "") + ">" + esc(h.name) + "</option>"; }).join("");
+    openSheet('<h2>Write a review</h2><p class="hint">Be honest and fair. Do not include phone numbers or personal details.</p>' +
+      '<form class="form" id="revForm">' +
+      '<div class="fld full"><label for="rvH">Hostel</label><select id="rvH">' + opts + "</select></div>" +
+      '<div class="fld full"><label for="rvS">Rating</label><select id="rvS"><option value="5">5 - Excellent</option><option value="4">4 - Good</option><option value="3" selected>3 - Okay</option><option value="2">2 - Poor</option><option value="1">1 - Bad</option></select></div>' +
+      '<div class="fld full"><label for="rvC">Did the total cost match the advert?</label><select id="rvC"><option value="yes">Yes</option><option value="no">No, extra charges appeared</option><option value="unsure">Not sure</option></select></div>' +
+      '<div class="fld full"><label for="rvT">Your review</label><textarea id="rvT" rows="4" minlength="10" maxlength="400" required placeholder="Water, light, security, noise, distance, management..."></textarea></div>' +
+      '<div class="row" style="margin-top:6px"><button class="btn" type="submit">Post review</button><button class="btn plain" type="button" data-close="1">Cancel</button></div></form>');
+    $("revForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      var h = byId($("rvH").value), text = $("rvT").value.trim();
+      if (!h || text.length < 10) return;
+      reviews.unshift({ id: "rv" + Date.now(), hid: h.id, name: h.name, stars: Number($("rvS").value), cost: $("rvC").value, text: text, date: new Date().toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) });
+      store(K_REV, reviews); revF = h.id; closeSheet(); renderView("reviews");
+    });
+  }
+
   /* ---- Views and events ---- */
   function renderView(name) {
     var el = VIEWS[name]; if (!el) return;
-    el.innerHTML = name === "passes" ? passesHtml() : (name === "escrow" ? escrowHtml() : landlordHtml());
+    el.innerHTML = name === "passes" ? passesHtml() : name === "escrow" ? escrowHtml() : name === "compare" ? compareHtml() : name === "reviews" ? reviewsHtml() : landlordHtml();
   }
   function showView(name, go) {
     var isV = !!VIEWS[name];
@@ -1222,6 +1339,7 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
     if (isV) { renderView(name); window.scrollTo(0, 0); }
   }
   document.addEventListener("change", function (e) {
+    if (e.target.id === "revSel") { revF = e.target.value; renderView("reviews"); return; }
     if (e.target.id === "lSel") { lh = e.target.value; lpick = null; lpickFor = null; renderView("landlord"); }
   });
   document.addEventListener("click", function (e) {
@@ -1231,6 +1349,9 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
     else if (d.reserve) { h = byId(d.reserve); if (h) reserveSheet(h); }
     else if (d.report) openReport();
     else if (d.tips) tipsSheet();
+    else if (d.cmp !== undefined) { cmpN = Number(d.cmp); renderView("compare"); }
+    else if (d.revnew) reviewSheet();
+    else if (d.revdel) { reviews = reviews.filter(function (r) { return r.id !== d.revdel; }); store(K_REV, reviews); renderView("reviews"); }
     else if (d.close) closeSheet();
     else if (d.go) navTo(d.go);
     else if (d.pcancel) {
